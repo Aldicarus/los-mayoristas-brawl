@@ -894,6 +894,12 @@ input, textarea, select { -webkit-user-select: text; user-select: text; touch-ac
 .vs .vs-rk { font-size: 15px; padding: 2px 10px 2px 4px; }
 .rkres .rk-emb .rkb, .rew .rkb { flex: none; }
 .rew .rkb { width: 30px !important; height: 30px !important; }
+/* VS: Spartacus entra con foco y bailando */
+.pc.showman { position: relative; animation: slideIn .4s cubic-bezier(.3,1.4,.5,1) backwards, showDance .55s ease-in-out .5s infinite alternate;
+  box-shadow: 0 5px 0 var(--out), 0 0 0 3px #ffd23f, 0 0 28px 10px rgba(255,236,140,.75); }
+.pc.showman::after { content: ''; position: absolute; inset: -10% -30% 40%; background: radial-gradient(ellipse at 50% 0, rgba(255,255,220,.6), transparent 70%); pointer-events: none; mix-blend-mode: screen; }
+@keyframes showDance { from { transform: rotate(-5deg) translateY(0); } to { transform: rotate(5deg) translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .pc.showman { animation: slideIn .4s backwards; } }
 
 </style>
 </head>
@@ -2798,16 +2804,16 @@ const BRAWLERS = [
   // ---- los dos brawlers del nombre del juego (diseños propios, gratis para todos) ----
   {
     id: 'justice', name: 'Justice', rarity: 'mitico', role: 'Tanque', hp: 5400, speed: 2.45,
-    desc: 'Un payaso justiciero con capa y nariz de goma que defiende el barrio a tartazo limpio.',
-    attack: { name: 'Tartazo', desc: 'Lanza una tarta de nata que pringa al rival y lo frena un momento.',
-      kind: 'bullets', count: 1, spread: 0, dmg: 1020, range: 6.5, speed: 11, radius: 13, slow: .8, reload: 1.5, cooldown: .45, proj: 'cake', sfx: 'shot_coconut', charge: .2 },
-    super: { name: '¡Mazazo justiciero!', desc: 'Salta con su mazo gigante de goma y aplasta a los rivales al caer.',
+    desc: 'Un justiciero casero que se ha hecho el traje con lo que ha encontrado en el almacén: una caja de cartón, una lona y un desatascador.',
+    attack: { name: 'Caja voladora', desc: 'Lanza una caja de cartón que le cae encima al rival y lo frena un momento.',
+      kind: 'bullets', count: 1, spread: 0, dmg: 1020, range: 6.5, speed: 11, radius: 13, slow: .8, reload: 1.5, cooldown: .45, proj: 'box', sfx: 'shot_coconut', charge: .2 },
+    super: { name: '¡Desatascazo!', desc: 'Salta con su desatascador gigante y aplasta a los rivales al caer.',
       kind: 'leap', dmg: 1700, area: 2.3, range: 7, knock: 1.6, aim: 'lob', aiRange: 6.5 },
-    gadget: { name: 'Bocinazo', desc: 'Toca su bocina gigante: los rivales de alrededor se quedan aturdidos 1 segundo.', kind: 'nova', dmg: 300, area: 2.4, stun: 1, col: '#ffd23f' },
+    gadget: { name: 'Cinta de embalar', desc: 'Envuelve en cinta a los rivales de alrededor: no se pueden mover durante 1 segundo.', kind: 'nova', dmg: 300, area: 2.4, stun: 1, col: '#c9925a' },
   },
   {
     id: 'spartacus', name: 'Spartacus', rarity: 'mitico', role: 'Asesino', hp: 5000, speed: 2.75,
-    desc: 'Un luchador enmascarado y fanfarrón que presume de músculos y baila para su público.',
+    desc: 'Un luchador enmascarado y fanfarrón, con capa de leopardo y un cinturón de campeón enorme, que presume de músculos y baila para su público.',
     attack: { name: 'Puños de campeón', desc: 'Dos puñetazos rapidísimos a corta distancia.',
       kind: 'bullets', count: 2, spread: .22, dmg: 560, range: 3.2, speed: 15, radius: 13, reload: 1.1, cooldown: .35, proj: 'pellet', sfx: 'shot_shotgun', charge: .12 },
     super: { name: 'Placaje del gladiador', desc: 'Se lanza en plancha: arrolla a los rivales y los manda por los aires.',
@@ -2836,7 +2842,7 @@ const STAR_POWERS = {
   curioso:  { name: 'Siesta en la hamaca', kind: 'regenMul', mul: 2, desc: 'Cuando descansa se cura el doble de rápido.' },
   galeon:   { name: 'Rebote certero', kind: 'bounceDmg', mul: 1.3, desc: 'Cada rebote de su bala de cañón hace un 30% más de daño.' },
   chamusco: { name: 'Fuego de dragón', kind: 'burnMul', mul: 1.6, desc: 'Sus quemaduras hacen un 60% más de daño.' },
-  justice:  { name: 'Nata reconfortante', kind: 'lifesteal', pct: .15, desc: 'Se cura un 15% del daño que hace.' },
+  justice:  { name: 'Hora del bocadillo', kind: 'lifesteal', pct: .15, desc: 'Se cura un 15% del daño que hace.' },
   spartacus: { name: '¡El público ruge!', kind: 'chargeMul', mul: 1.3, desc: 'Su súper se carga un 30% más rápido.' },
   tuerca:   { name: 'Torreta blindada', kind: 'turretMul', hp: 1.5, heal: 1.3, desc: 'Su torreta tiene un 50% más de vida y cura un 30% más.' },
   miga:     { name: 'Sartén de la abuela', kind: 'chainPlus', n: 1, desc: 'Su sartén salta hacia un rival más.' },
@@ -2859,7 +2865,7 @@ const HYPERS = {
   curioso:  { name: 'Salto gorila', desc: 'Salta más lejos y aplasta una zona enorme.', sup: { area: 3, dmg: 2000, range: 9 } },
   galeon:   { name: 'Tres anclas', desc: 'Lanza tres anclas a la vez.', sup: { count: 3, spread: .55 } },
   chamusco: { name: 'Vuelo infernal', desc: 'Cae con una explosión enorme y el fuego dura más.', sup: { area: 3, dmg: 1600, fireArea: 2.8, fireDur: 5 } },
-  justice:  { name: 'Mazo colosal', desc: 'Salta más lejos y el mazazo aplasta una zona enorme.', sup: { area: 3.1, dmg: 2100, range: 8.5 } },
+  justice:  { name: 'Palé gigante', desc: 'Salta más lejos y el desatascazo aplasta una zona enorme.', sup: { area: 3.1, dmg: 2100, range: 8.5 } },
   spartacus: { name: 'Gran final', desc: 'El placaje llega más lejos y lanza a los rivales todavía más alto.', sup: { dist: 10, range: 10, dmg: 1800, knock: 3.2 } },
   tuerca:   { name: 'Megatorreta', desc: 'Una torreta enorme que dura más y dispara el doble de rápido.', sup: { hp: 4500, dur: 20, fire: .38, heal: 550, healR: 4.2, area: 4.2 } },
   miga:     { name: 'Tarta de boda', desc: 'Una tarta gigante que marea durante 2 s.', sup: { area: 2.9, stun: 2, dmg: 1500 } },
@@ -4396,54 +4402,65 @@ const Models = (() => {
         } },
       ],
     },
-    // ---- Justice: payaso justiciero (diseño propio): cara pintada de blanco, antifaz azul pintado, nariz de goma,
-    //      mechones verdes, gorguera, traje morado de lunares con una estrella, capa roja, zapatones y mazo de goma ----
+    // ---- Justice: justiciero casero (diseño propio) que se ha hecho el traje con lo que ha encontrado en el almacén:
+    //      caja de cartón de casco (con agujeros para los ojos, solapas y una estrella pintada a rotulador), capa de
+    //      lona con ojales, chaleco reflectante, sudadera, guantes de fregar, botas de trabajo y un desatascador gigante ----
     justice: {
-      pal: { skin: '#fbf6ef', outfit: '#7b3fe4', dot: '#ffd23f', legs: '#2b7de9', shoes: '#ff3b3b', hand: '#ffffff', mask: '#1d3fae', nose: '#ff2d2d',
-        hair: '#2fd06a', ruff: '#ffffff', ruff2: '#ffd23f', cape: '#e53935', cape2: '#ffd23f', star: '#ffd23f', starRim: '#c98a00', mallet: '#ff4d4d', band: '#ffd23f', wood: '#a0693a' },
-      gait: 'waddle', opt: { w: 1.18, belly: 1, sleeve: 'long', head: [.31, .29, .29], handK: 1.2 },
-      eyes: { iris: '#2a7be0', brow: '#1b1b1b', browT: -.1 }, mouth: 'grin', cheeks: '#ff5a6e',
+      pal: { skin: '#f2c294', outfit: '#7d8794', vest: '#ff7a1a', reflect: '#e8eef5', legs: '#6b4a2b', shoes: '#3a2a1e', hand: '#ffd23f',
+        card: '#c9925a', card2: '#a8743f', tape: '#8a5a2b', marker: '#d62828', tarp: '#2fae5a', tarp2: '#1f8a44', grommet: '#c3cbd4', nose: '#ff2d2d', wood: '#a0693a', rubber: '#d62828' },
+      gait: 'waddle', opt: { w: 1.18, belly: 1, sleeve: 'long', head: [.31, .29, .29], handK: 1.25 },
+      eyes: { iris: '#2a7be0', brow: null }, mouth: 'grin',
       extra(S) {
-        // antifaz de justiciero pintado en la cara (los ojos 3D quedan por delante)
-        const head = S.L.find(L => L.bone === 'head');
-        head.col = (x, y, z) => z > .1 && (Math.hypot(Math.abs(x) - .115, (y - 1.105) * 1.35) < .1 || (Math.abs(x) < .06 && Math.abs(y - 1.115) < .028)) ? 'mask' : 'skin';
-        // traje de lunares con una estrella grande en el pecho
-        const star = (px, py, R) => { const a = Math.atan2(py, px) - Math.PI / 2, f = ((a / TAU * 5) % 1 + 1) % 1; return Math.hypot(px, py) - R * (.45 + .55 * Math.abs(f * 2 - 1)); };
-        for (const L of S.L) if (L.col === 'outfit') L.col = (x, y, z) => {
-          if (z > .12 && Math.abs(x) < .11 && Math.abs(y - .63) < .11) { const d = star(x, y - .63, .095); if (d < -.012) return 'star'; if (d < .004) return 'starRim'; }
-          const u = x * 13, v = y * 13, w = z * 13, du = u - Math.round(u), dv = v - Math.round(v), dw = w - Math.round(w);
-          return Math.hypot(du, dv, dw) < .26 ? 'dot' : 'outfit';
-        };
-        // nariz de goma, gorguera, cinturón y zapatones
-        S.add(F.sph([0, 1.04, .3], .068), 'nose', 'head', .015);
-        S.add(F.torus([0, .785, 0], .165, .05), (x, y, z) => Math.sin(Math.atan2(x, z) * 12) > 0 ? 'ruff' : 'ruff2', 'neck', .02);
-        S.add(F.ell([0, .46, 0], [.27, .04, .2]), 'legs', 'hips', .01);
-        for (const d of [-1, 1]) S.add(F.ell([d * .12, .055, .11], [.11, .07, .2]), 'shoes', d < 0 ? 'footL' : 'footR', .03);
+        // chaleco reflectante naranja con dos bandas plateadas (las mangas son de la sudadera gris)
+        for (const L of S.L) if ((L.bone === 'chest' || L.bone === 'spine') && L.col === 'outfit') L.col = (x, y, z) => Math.abs(y - .59) < .022 || Math.abs(y - .69) < .022 ? 'reflect' : 'vest';
+        // guantes de fregar largos (amarillos hasta medio antebrazo)
+        for (const L of S.L) if (/^fore/.test(L.bone) && L.col === 'outfit') L.col = (x, y) => y < .53 ? 'hand' : 'outfit';
+        // capucha de la sudadera, nariz roja que asoma por la caja, botas de trabajo y un rollo de cinta en el cinturón
+        S.add(F.ell([0, .8, -.17], [.2, .09, .08]), 'outfit', 'chest', .04);
+        S.add(F.sph([0, 1.04, .3], .062), 'nose', 'head', .015);
+        S.add(F.ell([0, .46, 0], [.27, .04, .2]), 'tape', 'hips', .01);
+        S.add(F.torus([.27, .43, .06], .055, .022, [Math.PI / 2, 0, 0]), 'tape', 'hips', .01);
+        for (const d of [-1, 1]) S.add(F.ell([d * .12, .055, .1], [.105, .075, .18]), 'shoes', d < 0 ? 'footL' : 'footR', .03);
       },
       parts: () => [
-        // mechones de pelo verde a los lados (con muelle) y uno en la coronilla
-        ...[-1, 1].map(d => ({ bone: 'head', spring: { at: [d * .3, 1.16, -.04], k: 40, c: 5, gain: .18, sign: d }, cell: .011, sculpt: S => {
-          for (const [ox, oy, oz, r] of [[0, 0, 0, .085], [.05, .07, -.03, .07], [.06, -.07, -.02, .07], [.1, .01, -.06, .065]]) S.add(F.sph([d * (.3 + ox), 1.16 + oy, -.04 + oz], r), 'hair', null, .04);
-        } })),
-        { bone: 'head', spring: { at: [0, 1.36, -.02], k: 60, c: 7, gain: .1 }, cell: .011, sculpt: S => { S.add(F.sph([0, 1.37, -.03], .06), 'hair', null, .03); S.add(F.sph([.05, 1.42, -.07], .045), 'hair', null, .03); } },
-        // capa de superhéroe (ondea al correr): roja por fuera y amarilla por dentro
-        { bone: 'chest', spring: { at: [0, .76, -.2], k: 26, c: 4, gain: .22, run: .4 }, cell: .012, sculpt: S => {
-          S.add(F.ell([0, .5, -.25], [.27, .33, .035], [.12, 0, 0]), (x, y, z) => z > -.245 + (y - .5) * .12 ? 'cape2' : 'cape', null, .03);
-          S.add(F.ell([0, .77, -.19], [.28, .05, .07]), 'cape', null, .03);
+        // casco de caja de cartón: agujeros para los ojos y la nariz, cinta por arriba y una estrella pintada
+        { bone: 'head', cell: .011, sculpt: S => {
+          const star = (px, py, R) => { const a = Math.atan2(py, px) - Math.PI / 2, f = ((a / TAU * 5) % 1 + 1) % 1; return Math.hypot(px, py) - R * (.45 + .55 * Math.abs(f * 2 - 1)); };
+          S.add(F.rbox([0, 1.22, 0], [.34, .235, .33], .025), (x, y, z) => {
+            if (Math.abs(x) < .05 && y > 1.43) return 'tape';
+            if (Math.abs(x) < .05 && z > .31 && y > 1.36) return 'tape';
+            if (z > .31 && star(x - .2, y - 1.36, .05) < 0) return 'marker';
+            return Math.abs(x) > .32 || Math.abs(z) > .31 ? 'card2' : 'card';
+          }, null, .01);
+          for (const d of [-1, 1]) S.sub(F.ell([d * .112, 1.105, .33], [.088, .078, .12]), .015);
+          S.sub(F.sph([0, 1.035, .34], .066), .01);
         } },
-        // mazo gigante de goma
-        { bone: 'handR', weapon: true, cell: .012, sculpt: S => {
-          S.add(F.cap([0, 0, -.06], [0, 0, .42], .028), 'wood', null, .01);
-          S.add(F.cap([-.13, 0, .52], [.13, 0, .52], .11), 'mallet', null, .03);
-          for (const d of [-1, 1]) S.add(F.torus([d * .1, 0, .52], .105, .022, [0, 0, Math.PI / 2]), 'band', null, .01);
+        // solapas de la caja abiertas (se mueven con muelle)
+        { bone: 'head', spring: { at: [0, 1.46, 0], k: 45, c: 5, gain: .12 }, cell: .011, sculpt: S => {
+          S.add(F.rbox([0, 1.5, .37], [.32, .012, .09], .006, [.75, 0, 0]), 'card', null, .005);
+          S.add(F.rbox([0, 1.5, -.37], [.32, .012, .09], .006, [-.75, 0, 0]), 'card', null, .005);
+          for (const d of [-1, 1]) S.add(F.rbox([d * .38, 1.5, 0], [.09, .012, .3], .006, [0, 0, -d * .75]), 'card2', null, .005);
+        } },
+        // capa de lona verde de embalar con ojales (ondea al correr)
+        { bone: 'chest', spring: { at: [0, .76, -.2], k: 26, c: 4, gain: .22, run: .4 }, cell: .012, sculpt: S => {
+          S.add(F.ell([0, .5, -.25], [.27, .33, .035], [.12, 0, 0]), (x, y, z) => z > -.245 + (y - .5) * .12 ? 'tarp2' : 'tarp', null, .03);
+          S.add(F.ell([0, .77, -.19], [.28, .05, .07]), 'tarp', null, .03);
+          for (const d of [-1, 1]) S.add(F.torus([d * .2, .76, -.13], .028, .01, [Math.PI / 2, 0, 0]), 'grommet', null, .005);
+        } },
+        // desatascador gigante
+        { bone: 'handR', weapon: true, cell: .011, sculpt: S => {
+          S.add(F.cap([0, 0, -.06], [0, 0, .46], .026), 'wood', null, .01);
+          S.add(F.rcone([0, 0, .45], [0, 0, .6], .045, .12), 'rubber', null, .02);
+          S.sub(F.sph([0, 0, .7], .11), .01);
         } },
       ],
     },
-    // ---- Spartacus: luchador enmascarado y fanfarrón (diseño propio): máscara dorada con llamas rojas, cresta de
-    //      gladiador, capa morada, cinturón de campeón, brazaletes, botas altas y puños vendados ----
+    // ---- Spartacus: luchador enmascarado y fanfarrón (diseño propio): máscara dorada con marco rojo, cresta de
+    //      gladiador, capa de leopardo, maillot turquesa con un rayo, cinturón de campeón enorme, mallas negras con
+    //      raya dorada, botas negras con estrellas y puños vendados ----
     spartacus: {
-      pal: { skin: '#e3a073', outfit: '#d62828', legs: '#d62828', shoes: '#b81d24', hand: '#e3a073', mask: '#ffc93a', trim: '#d62828',
-        crest: '#e53935', crest2: '#ff8a3c', metal: '#b8c0ca', gold: '#ffd23f', gold2: '#e0a400', gem: '#3aa0ff', cape: '#7b2ff7', cape2: '#ffd23f', tape: '#f4f4f0', boot2: '#ffd23f' },
+      pal: { skin: '#e3a073', outfit: '#1fc8c0', bolt: '#ffd23f', legs: '#1d1d28', shoes: '#1d1d28', hand: '#e3a073', mask: '#ffc93a', trim: '#d62828',
+        crest: '#e53935', crest2: '#ff8a3c', metal: '#b8c0ca', gold: '#ffd23f', gold2: '#e0a400', cape: '#f59a2c', spot: '#4a2a10', cape2: '#ffd23f', tape: '#f4f4f0', boot2: '#ffd23f' },
       gait: 'swagger', opt: { w: 1.28, shoulder: 1.15, armR: 1.32, sleeve: 'none', head: [.27, .27, .27], hc: [0, 1.06, 0], handK: 1.15 },
       eyes: { iris: '#6a3a14', brow: '#2a1a10', browT: .14 }, mouth: 'grin',
       extra(S) {
@@ -4455,14 +4472,19 @@ const Models = (() => {
           if (Math.abs(x) < .022 && y > 1.15) return 'trim';
           return 'mask';
         };
-        // maillot de lucha (los brazos van al aire) con pectorales marcados
-        for (const d of [-1, 1]) S.add(F.ell([d * .1, .69, .12], [.1, .07, .06]), 'outfit', 'chest', .05);
-        // cinturón de campeón con hebilla grande y una gema
-        S.add(F.ell([0, .47, 0], [.26, .055, .2]), 'gold2', 'hips', .01);
-        S.add(F.rbox([0, .47, .2], [.1, .075, .022], .02), (x, y) => Math.hypot(x, y - .47) < .035 ? 'gem' : 'gold', 'hips', .01);
+        // maillot de lucha turquesa (los brazos van al aire) con pectorales marcados y un rayo dorado en el pecho
+        const bolt = (x, y) => { const u = x / .07, v = (y - .64) / .1; return (Math.abs(u - v * .55) < .32 && v > -.05 && v < 1) || (Math.abs(u + .15 - v * .55) < .32 && v < .05 && v > -1); };
+        for (const L of S.L) if ((L.bone === 'chest' || L.bone === 'spine') && L.col === 'outfit') L.col = (x, y, z) => z > .1 && bolt(x, y) ? 'bolt' : 'outfit';
+        for (const d of [-1, 1]) S.add(F.ell([d * .1, .69, .12], [.1, .07, .06]), (x, y, z) => z > .1 && bolt(x, y) ? 'bolt' : 'outfit', 'chest', .05);
+        // cinturón de campeón enorme con una estrella roja en la hebilla
+        const star = (px, py, R) => { const a = Math.atan2(py, px) - Math.PI / 2, f = ((a / TAU * 5) % 1 + 1) % 1; return Math.hypot(px, py) - R * (.45 + .55 * Math.abs(f * 2 - 1)); };
+        S.add(F.ell([0, .47, 0], [.28, .07, .215]), 'gold2', 'hips', .01);
+        S.add(F.rbox([0, .47, .21], [.13, .1, .026], .025), (x, y) => star(x, y - .47, .055) < 0 ? 'trim' : 'gold', 'hips', .01);
         // brazaletes dorados y botas altas con borde dorado
         for (const d of [-1, 1]) S.add(F.torus([d * .33, .63, 0], .075, .018, [0, 0, d * .35]), 'gold', d < 0 ? 'armL' : 'armR', .01);
-        for (const L of S.L) if (/^shin/.test(L.bone) && L.col === 'legs') L.col = (x, y) => y > .25 ? 'legs' : y > .215 ? 'boot2' : 'shoes';
+        // mallas negras con raya dorada a los lados; botas negras con borde y estrella dorados
+        for (const L of S.L) if (/^thigh/.test(L.bone) && L.col === 'legs') L.col = x => Math.abs(x) > .19 ? 'boot2' : 'legs';
+        for (const L of S.L) if (/^shin/.test(L.bone) && L.col === 'legs') L.col = (x, y, z) => y > .25 ? (Math.abs(x) > .18 ? 'boot2' : 'legs') : y > .215 ? 'boot2' : z > .05 && star(Math.abs(x) - .115, y - .15, .04) < 0 ? 'boot2' : 'shoes';
       },
       parts: () => [
         // cresta de gladiador sobre la máscara, de la frente a la nuca (con muelle)
@@ -4474,9 +4496,10 @@ const Models = (() => {
             S.add(F.sph([0, cy + (R + .05 + up * .07) * Math.cos(a), -(R + .05 + up * .07) * Math.sin(a)], .045 + up * .03), i % 2 ? 'crest2' : 'crest', null, .03);
           }
         } },
-        // capa morada con broches dorados
+        // capa de leopardo (dorada por dentro) con broches dorados
         { bone: 'chest', spring: { at: [0, .78, -.2], k: 26, c: 4, gain: .22, run: .4 }, cell: .012, sculpt: S => {
-          S.add(F.ell([0, .52, -.25], [.3, .32, .035], [.12, 0, 0]), (x, y, z) => z > -.245 + (y - .52) * .12 ? 'cape2' : 'cape', null, .03);
+          const spots = (x, y) => { const u = x * 11 + Math.sin(y * 23) * .35, v = y * 11 + Math.sin(x * 19) * .35, du = u - Math.round(u), dv = v - Math.round(v); return Math.hypot(du, dv) < .2; };
+          S.add(F.ell([0, .52, -.25], [.3, .32, .035], [.12, 0, 0]), (x, y, z) => z > -.245 + (y - .52) * .12 ? 'cape2' : spots(x, y) ? 'spot' : 'cape', null, .03);
           for (const d of [-1, 1]) S.add(F.sph([d * .23, .78, -.13], .05), 'gold', null, .02);
         } },
         // puños vendados
@@ -4830,7 +4853,7 @@ const Models = (() => {
       if (lob) { B.hips.position.y += (.08 + Math.abs(Math.sin(t * 8)) * .06) * lob; B.thighL.rotation.x -= .45 * lob; B.thighR.rotation.x -= .45 * lob; B.shinL.rotation.x += .8 * lob; B.shinR.rotation.x += .8 * lob; }
       if (st.recoil > .3) B.head.rotation.x += st.recoil * .25;   // escupe la bola de fuego
     },
-    // Justice: en el lobby, pose de superhéroe con los puños en la cintura y, de vez en cuando, se aprieta la nariz de goma
+    // Justice: en el lobby, pose de superhéroe con los puños en la cintura y, de vez en cuando, se recoloca la caja de la cabeza
     justice(u, B, st, t) {
       if (st.pose === 'lobby' && !st.aiming) {
         const h = cyc(t, 7, .4, 3.4), k = cyc(t, 7, 4.3, 1.8), sq = Math.abs(Math.sin(t * 16)) * k;
@@ -7676,7 +7699,7 @@ const CLUB_CONFIG = {
 // Versión de esta copia del juego. En la carpeta principal (la de desarrollo) es la
 // de la próxima publicación y solo la cambia tools/publicar.sh, así nunca es menor que
 // la del enlace y el aviso de versión nueva no sale mientras se desarrolla.
-const GAME_VERSION = '10';
+const GAME_VERSION = '11';
 // Enlace fijo del juego publicado: siempre tiene la última versión y su version.json
 const WEB_URL = 'https://aldicarus.github.io/los-mayoristas-brawl/';
 
@@ -8899,6 +8922,14 @@ const VFX = (() => {
         add(new THREE.SphereGeometry(.055, 10, 8), MATS.cherry, [0, .33, 0]);
         break;
       }
+      case 'box': {      // caja de cartón de Justice (con cinta de embalar)
+        MATS.cardboard = MATS.cardboard || std({ color: '#c9925a', roughness: .9 });
+        MATS.tape = MATS.tape || std({ color: '#8a5a2b', roughness: .5 });
+        add(new THREE.BoxGeometry(.4, .3, .32), MATS.cardboard);
+        add(new THREE.BoxGeometry(.41, .06, .33), MATS.tape, [0, .0, 0]);
+        add(new THREE.BoxGeometry(.08, .31, .33), MATS.tape, [0, 0, 0]);
+        break;
+      }
       case 'keg': {      // barril de pólvora (área de Galeón)
         MATS.keg = MATS.keg || std({ color: '#9a6232', roughness: .8 });
         MATS.hoop = MATS.hoop || std({ color: '#3a3f48', metalness: .6, roughness: .4 });
@@ -8915,7 +8946,7 @@ const VFX = (() => {
     g.visible = false; R.scene.add(g);
     return g;
   }
-  const MESH_KINDS = { shuriken: 1, candy: 1, candyBig: 1, coconut: 1, bomb: 1, megabomb: 1, iceball: 1, cannonball: 1, anchor: 1, wrench: 1, pan: 1, cake: 1 };
+  const MESH_KINDS = { box: 1, shuriken: 1, candy: 1, candyBig: 1, coconut: 1, bomb: 1, megabomb: 1, iceball: 1, cannonball: 1, anchor: 1, wrench: 1, pan: 1, cake: 1 };
   const SPIN = { shuriken: 26, wrench: 17, pan: 12 };   // giran planos (los demás ruedan hacia delante)
 
   // ---- torreta de Tuerca (piscina de mallas) ----
@@ -8979,6 +9010,7 @@ const VFX = (() => {
     candy:    { c: '#ff4f7a', hot: '#fff0f5', halo: '#ff2d6a', st: 'candy', s: .9 },
     candyBig: { c: '#ff4f7a', hot: '#fff0f5', halo: '#ff2d6a', st: 'candy', s: 1.15 },
     coconut:  { c: '#c08a4a', hot: '#fff1d6', halo: '#7a4a22', st: 'wood', s: 1 },
+    box:      { c: '#c9925a', hot: '#fff1d6', halo: '#7a4a22', st: 'wood', s: 1 },
     cannonball: { c: '#3a3f48', hot: '#fff1c4', halo: '#6b7280', st: 'iron', s: 1.15 },
     anchor:   { c: '#9aa3ad', hot: '#ffffff', halo: '#64748b', st: 'metal', s: 1.2 },
     wrench:   { c: '#c7ced6', hot: '#ffffff', halo: '#94a3b8', st: 'metal', s: .95 },
@@ -8998,6 +9030,7 @@ const VFX = (() => {
     candy:    [[false, .08, '#ff8fb0', .1, .1, .8], [true, .035, '#ffffff', .07, .1, .8]],
     candyBig: [[false, .11, '#ff8fb0', .12, .1, .8], [true, .045, '#ffffff', .08, .1, .8]],
     coconut:  [[false, .05, '#fff5e0', .06, .1, .45]],
+    box:      [[false, .05, '#f3dcbc', .06, .1, .45]],
     bomb:     [[false, .05, '#b8b0aa', .2, .08, .5]],
     megabomb: [[false, .1, '#9a918b', .28, .08, .55]],
     iceball:  [[false, .12, '#e8f8ff', .16, .08, .8], [true, .06, '#bfe8ff', .1, .08, .6]],
@@ -12362,7 +12395,8 @@ const UI = {
     const G = G0 || Net.hostStart(cfg);   // con amigos: ocupan los huecos de bots de tu equipo
     BSAudio.jingle('matchfound'); BSAudio.music('vs');
     const M = MODES[cfg.mode], P = G.player;
-    const card = (e, small, i) => `<div class="pc ${small ? 'small' : ''} ${e === P ? 'me' : ''}" style="animation-delay:${i * .07}s"><img src="${Art.portrait(e.id, e.skin)}"><div class="pn t">${this.esc(e.name)}</div><div class="pt t">${ico(ICON.trophy)}${e.trophies}</div></div>`;
+    // (Spartacus sale con foco y bailando: es un fanfarrón)
+    const card = (e, small, i) => `<div class="pc ${small ? 'small' : ''} ${e === P ? 'me' : ''} ${e.id === 'spartacus' ? 'showman' : ''}" style="animation-delay:${i * .07}s"><img src="${Art.portrait(e.id, e.skin)}"><div class="pn t">${this.esc(e.name)}</div><div class="pt t">${ico(ICON.trophy)}${e.trophies}</div></div>`;
     let body;
     if (Modes.sd(cfg.mode)) body = `<div class="vsrow" style="max-width:640px">${G.ents.map((e, i) => card(e, true, i)).join('')}</div>`;   // (en Dúo salen por parejas)
     else {
