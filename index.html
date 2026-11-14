@@ -838,6 +838,62 @@ input, textarea, select { -webkit-user-select: text; user-select: text; touch-ac
   #rotate .rs { font-family: system-ui, sans-serif; font-weight: 700; font-size: 15px; color: #e8e2ff; line-height: 1.45; max-width: 300px; }
 }
 @keyframes rphone { 0%, 22% { transform: rotate(0deg); } 50%, 78% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
+.mbtns { flex-wrap: wrap; }
+/* club: solicitudes para entrar */
+.creqs { background: rgba(95,227,58,.12); border: 2px solid rgba(95,227,58,.45); border-radius: 12px; padding: 6px 8px; margin: 4px 0 8px; }
+.creqs .bt { font-size: 15px; color: #8cf06a; }
+.creq { color: #8cf06a; }
+.ccard.pend { opacity: .88; border-style: dashed; }
+.ccard.pend .cprev { color: #ffd21f; }
+
+/* ============================== COMPETITIVO ============================== */
+.rkb { display: block; filter: drop-shadow(0 3px 0 rgba(0,0,0,.35)); }
+.rankcard { display: flex; align-items: center; gap: 16px; margin: 6px 20px 14px; padding: 12px 16px; border: 4px solid var(--out); border-radius: 18px; cursor: pointer;
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.06) 0 22px, transparent 22px 44px), linear-gradient(#ff5d7a, #8a0f2e); box-shadow: 0 6px 0 var(--out); }
+.rankcard.sel { outline: 4px solid #ffd21f; }
+.rankcard .rk-emb { flex: none; }
+.rankcard .rk-mid { flex: 1; min-width: 0; }
+.rk-ttl { font-size: 26px; color: #fff; line-height: 1; }
+.rk-name { font-size: 22px; }
+.rankcard .bar, .rkres .bar { height: 14px; margin: 4px 0 2px; max-width: 360px; }
+.rankcard small, .rkres small { font-size: 13px; color: #ffe9f0; }
+.rankcard p { margin: 4px 0 0; font-family: system-ui, sans-serif; font-weight: 700; font-size: 13px; color: #ffe0e8; }
+.rk-btns { display: flex; flex-direction: column; gap: 8px; flex: none; }
+.rk-btns .btn { font-size: 16px; padding: 6px 14px; }
+.event-btn .rk-mi { width: auto; height: auto; display: grid; place-items: center; }
+.vs-rk { display: flex; align-items: center; gap: 8px; font-size: 18px; color: #ffd21f; background: rgba(0,0,0,.3); border-radius: 12px; padding: 2px 12px 2px 4px; }
+.rkres { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,.3); border: 3px solid var(--out); border-radius: 16px; padding: 8px 16px; min-width: min(420px, 92vw); }
+.rkres .rk-mid { flex: 1; }
+.rkup { font-size: 24px; color: #5fe33a; animation: pop .5s cubic-bezier(.3,1.6,.5,1); }
+.rkdown { font-size: 22px; color: #ff7a7a; }
+.rkprize { font-size: 14px; color: #ffd21f; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-top: 3px; } .rkprize .ico { width: 18px; height: 18px; }
+.rklist { display: flex; flex-direction: column; gap: 8px; }
+.rkrow { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,.25); border-radius: 12px; padding: 6px 10px; }
+.rkt { width: 110px; flex: none; font-size: 16px; }
+.rkdivs { display: flex; gap: 8px; flex: 1; }
+.rkd { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 2px; border-radius: 10px; opacity: .55; font-size: 13px; }
+.rkd.got { opacity: 1; } .rkd.cur { opacity: 1; background: rgba(255,210,31,.22); outline: 3px solid #ffd21f; }
+.rkd small { font-size: 11px; color: #e8e2ff; } .rkw { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; justify-content: center; } .rkw .ico { width: 14px; height: 14px; }
+@media (max-height: 520px) and (min-aspect-ratio: 5/4) {
+  .rankcard { margin: 4px 12px 10px; padding: 8px 12px; gap: 10px; }
+  .rankcard .rk-emb .rkb { width: 64px; height: 64px; }
+  .rk-ttl { font-size: 20px; } .rk-name { font-size: 18px; }
+  .rankcard p { font-size: 11px; }
+  .rk-btns .btn { font-size: 14px; padding: 4px 10px; min-height: 36px; }
+  .rkres { padding: 4px 12px; } .rkres .rk-emb .rkb { width: 50px; height: 50px; }
+  .rkup { font-size: 19px; } .rkdown { font-size: 17px; }
+  .vs-rk { font-size: min(16px, 4vh); }
+}
+@media (orientation: portrait) and (max-width: 900px), (max-width: 560px) {
+  .rankcard { flex-wrap: wrap; margin: 4px 8px 10px; } .rk-btns { flex-direction: row; width: 100%; } .rk-btns .btn { flex: 1; }
+  .rkt { width: 80px; font-size: 13px; }
+}
+/* (en la pantalla VS, el rango va en una esquina para no quitar sitio a las cartas) */
+.vs .vs-rk { position: absolute; top: calc(10px + env(safe-area-inset-top, 0px)); left: 12px; z-index: 2; }
+.vs-rk .rkb { width: 28px !important; height: 28px !important; flex: none; }
+.vs .vs-rk { font-size: 15px; padding: 2px 10px 2px 4px; }
+.rkres .rk-emb .rkb, .rew .rkb { flex: none; }
+.rew .rkb { width: 30px !important; height: 30px !important; }
 
 </style>
 </head>
@@ -2739,6 +2795,25 @@ const BRAWLERS = [
       kind: 'dive', dmg: 1300, area: 2.2, range: 8, knock: 1.2, fireDmg: 260, fireDur: 3.5, fireArea: 2, aim: 'lob', aiRange: 7.5 },
     gadget: { name: 'Estornudo de fuego', desc: '¡Achís! Quema a los rivales cercanos y los empuja.', kind: 'nova', dmg: 500, area: 2.2, knock: 1.6, burn: { dmg: 400, dur: 2 }, fx: 'fireNova' },
   },
+  // ---- los dos brawlers del nombre del juego (diseños propios, gratis para todos) ----
+  {
+    id: 'justice', name: 'Justice', rarity: 'mitico', role: 'Tanque', hp: 5400, speed: 2.45,
+    desc: 'Un payaso justiciero con capa y nariz de goma que defiende el barrio a tartazo limpio.',
+    attack: { name: 'Tartazo', desc: 'Lanza una tarta de nata que pringa al rival y lo frena un momento.',
+      kind: 'bullets', count: 1, spread: 0, dmg: 1020, range: 6.5, speed: 11, radius: 13, slow: .8, reload: 1.5, cooldown: .45, proj: 'cake', sfx: 'shot_coconut', charge: .2 },
+    super: { name: '¡Mazazo justiciero!', desc: 'Salta con su mazo gigante de goma y aplasta a los rivales al caer.',
+      kind: 'leap', dmg: 1700, area: 2.3, range: 7, knock: 1.6, aim: 'lob', aiRange: 6.5 },
+    gadget: { name: 'Bocinazo', desc: 'Toca su bocina gigante: los rivales de alrededor se quedan aturdidos 1 segundo.', kind: 'nova', dmg: 300, area: 2.4, stun: 1, col: '#ffd23f' },
+  },
+  {
+    id: 'spartacus', name: 'Spartacus', rarity: 'mitico', role: 'Asesino', hp: 5000, speed: 2.75,
+    desc: 'Un luchador enmascarado y fanfarrón que presume de músculos y baila para su público.',
+    attack: { name: 'Puños de campeón', desc: 'Dos puñetazos rapidísimos a corta distancia.',
+      kind: 'bullets', count: 2, spread: .22, dmg: 560, range: 3.2, speed: 15, radius: 13, reload: 1.1, cooldown: .35, proj: 'pellet', sfx: 'shot_shotgun', charge: .12 },
+    super: { name: 'Placaje del gladiador', desc: 'Se lanza en plancha: arrolla a los rivales y los manda por los aires.',
+      kind: 'charge', dist: 7, speed: 16, dmg: 1400, knock: 2.4, aim: 'line', range: 7, aiRange: 5 },
+    gadget: { name: 'Pose de campeón', desc: 'Saca músculo: durante 2,5 segundos recibe mucho menos daño.', kind: 'shield', dur: 2.5 },
+  },
 ];
 const BRAWLER = Object.fromEntries(BRAWLERS.map(b => [b.id, b]));
 // precio de un brawler que se puede comprar (solo los que tienen `unlock`)
@@ -2761,6 +2836,8 @@ const STAR_POWERS = {
   curioso:  { name: 'Siesta en la hamaca', kind: 'regenMul', mul: 2, desc: 'Cuando descansa se cura el doble de rápido.' },
   galeon:   { name: 'Rebote certero', kind: 'bounceDmg', mul: 1.3, desc: 'Cada rebote de su bala de cañón hace un 30% más de daño.' },
   chamusco: { name: 'Fuego de dragón', kind: 'burnMul', mul: 1.6, desc: 'Sus quemaduras hacen un 60% más de daño.' },
+  justice:  { name: 'Nata reconfortante', kind: 'lifesteal', pct: .15, desc: 'Se cura un 15% del daño que hace.' },
+  spartacus: { name: '¡El público ruge!', kind: 'chargeMul', mul: 1.3, desc: 'Su súper se carga un 30% más rápido.' },
   tuerca:   { name: 'Torreta blindada', kind: 'turretMul', hp: 1.5, heal: 1.3, desc: 'Su torreta tiene un 50% más de vida y cura un 30% más.' },
   miga:     { name: 'Sartén de la abuela', kind: 'chainPlus', n: 1, desc: 'Su sartén salta hacia un rival más.' },
 };
@@ -2782,6 +2859,8 @@ const HYPERS = {
   curioso:  { name: 'Salto gorila', desc: 'Salta más lejos y aplasta una zona enorme.', sup: { area: 3, dmg: 2000, range: 9 } },
   galeon:   { name: 'Tres anclas', desc: 'Lanza tres anclas a la vez.', sup: { count: 3, spread: .55 } },
   chamusco: { name: 'Vuelo infernal', desc: 'Cae con una explosión enorme y el fuego dura más.', sup: { area: 3, dmg: 1600, fireArea: 2.8, fireDur: 5 } },
+  justice:  { name: 'Mazo colosal', desc: 'Salta más lejos y el mazazo aplasta una zona enorme.', sup: { area: 3.1, dmg: 2100, range: 8.5 } },
+  spartacus: { name: 'Gran final', desc: 'El placaje llega más lejos y lanza a los rivales todavía más alto.', sup: { dist: 10, range: 10, dmg: 1800, knock: 3.2 } },
   tuerca:   { name: 'Megatorreta', desc: 'Una torreta enorme que dura más y dispara el doble de rápido.', sup: { hp: 4500, dur: 20, fire: .38, heal: 550, healR: 4.2, area: 4.2 } },
   miga:     { name: 'Tarta de boda', desc: 'Una tarta gigante que marea durante 2 s.', sup: { area: 2.9, stun: 2, dmg: 1500 } },
 };
@@ -2797,6 +2876,8 @@ const MODES = {
   duoShowdown: { id: 'duoShowdown', name: 'Supervivencia Dúo', color: '#3fbf6a', dark: '#17703a', icon: 'duo', team: 2, desc: 'Por parejas: si tu compañero sigue vivo, reapareces a su lado. ¡La última pareja en pie gana!' },
   training: { id: 'training', name: 'Entrenamiento',    color: '#5aa7ff', dark: '#1d5aa8', icon: 'target', team: 1, desc: 'Prueba tu brawler contra muñecos.' },
 };
+// «Competitivo» solo existe en los menús: cada partida es uno de RANKED.modes (no está en MODE_ORDER)
+MODES.ranked = { id: 'ranked', name: 'Competitivo', color: '#ff4d6d', dark: '#8a0f2e', icon: 'ranked', team: 3, ranked: true, desc: 'Sube de rango: de Bronce a Campeón.' };
 const MODE_ORDER = ['gemGrab', 'showdown', 'duoShowdown', 'brawlBall', 'heist', 'bounty', 'knockout', 'hotZone'];
 
 // Temas visuales de los mapas (idea original: Pradera, Desierto, Hielo, Volcán, Navidad)
@@ -2878,20 +2959,64 @@ const BOT_NAMES = ['ElRayo', 'Pepito99', 'LaBestia', 'NinjaMax', 'Lucía_Pro', '
   'Sardina', 'Galleta', 'Meteoro', 'Trueno', 'Churro', 'Pulpo', 'Bigotes', 'Coletas'];
 
 // Trofeos ganados/perdidos según el resultado y los trofeos actuales del brawler
+// ============================== COMPETITIVO ==============================
+// Rangos propios: 7 categorías con 3 niveles (I, II, III) y Campeón arriba del todo. Cada nivel son 100
+// puntos. Ganar suma y perder resta (más cuanto más alto): se puede bajar de nivel y también de categoría.
+// Cada partida es un modo 3c3 y un mapa al azar, y los bots son más difíciles cuanto más alto estás.
+const RANKED = {
+  tiers: [
+    { id: 'bronce', name: 'BRONCE', col: '#ec9a62', dark: '#8a4a22' },
+    { id: 'plata', name: 'PLATA', col: '#e4ebf5', dark: '#7f8ca0' },
+    { id: 'oro', name: 'ORO', col: '#ffd34a', dark: '#c27d00' },
+    { id: 'diamante', name: 'DIAMANTE', col: '#7aeaff', dark: '#1f7fc4' },
+    { id: 'mitico', name: 'MÍTICO', col: '#d995ff', dark: '#7a2bc4' },
+    { id: 'legendario', name: 'LEGENDARIO', col: '#ff7a7a', dark: '#b01e3c' },
+    { id: 'maestro', name: 'MAESTRO', col: '#fff0b8', dark: '#b8860b' },
+  ],
+  top: { id: 'campeon', name: 'CAMPEÓN', col: '#86ffb8', dark: '#0f9a5a' },
+  per: 100, levels: 21,           // puntos de cada nivel · niveles (7 × 3); a partir del 21 eres Campeón
+  modes: ['gemGrab', 'brawlBall', 'knockout', 'hotZone', 'heist', 'bounty'],
+  win: 25, streak: 5,             // ganar (+5 más si llevas 2 victorias seguidas o más)
+  loss: [10, 12, 15, 18, 20, 22, 25, 25],   // perder, según la categoría
+};
+function rankInfo(pts) {
+  pts = Math.max(0, pts | 0);
+  const idx = Math.min(RANKED.levels, Math.floor(pts / RANKED.per));
+  if (idx >= RANKED.levels) return { idx, tier: 7, div: -1, name: RANKED.top.name, T: RANKED.top, into: pts - RANKED.levels * RANKED.per, need: 0 };
+  const tier = Math.floor(idx / 3), div = idx % 3, T0 = RANKED.tiers[tier];
+  return { idx, tier, div, name: T0.name + ' ' + ['I', 'II', 'III'][div], T: T0, into: pts - idx * RANKED.per, need: RANKED.per };
+}
+const rankName = idx => rankInfo(idx * RANKED.per).name;
+// dificultad de los bots: de casi fácil (Bronce I) a experto (Maestro III y Campeón)
+const rankDifficulty = pts => Math.min(3, .3 + rankInfo(pts).idx / RANKED.levels * 2.7);
+function rankDelta(result, pts, streak) {
+  if (result === 'win') return RANKED.win + (streak >= 2 ? RANKED.streak : 0);
+  if (result === 'draw') return 0;
+  return -RANKED.loss[Math.min(7, rankInfo(pts).tier)];
+}
+// premio la primera vez que llegas a cada nivel (más al empezar una categoría nueva)
+function rankReward(idx) {
+  if (idx >= RANKED.levels) return { gems: 60, coins: 500 };
+  const tier = Math.floor(idx / 3);
+  return idx % 3 === 0 ? { gems: 5 + tier * 5, coins: 60 + tier * 40 } : { coins: 30 + tier * 20, pp: 20 + tier * 10 };
+}
+
 function trophyDelta(mode, result, rank, brawlerTrophies) {
+  // perder siempre quita copas (más cuantas más tenga el brawler); nunca se baja de 0 (lo controla quien llama)
   const tier = Math.min(6, Math.floor(brawlerTrophies / 100));
-  if (mode === 'showdown') {
-    const tables = [[10, 8, 7, 6, 4, 2, 2, 1, 0, 0], [10, 8, 7, 6, 3, 2, 1, 0, -1, -2], [9, 7, 6, 5, 3, 1, 0, -1, -2, -3],
-      [9, 7, 6, 4, 2, 0, -1, -2, -3, -4], [8, 6, 5, 3, 1, -1, -2, -3, -4, -5], [8, 6, 4, 2, 0, -2, -3, -4, -5, -6], [7, 5, 3, 1, -1, -3, -4, -5, -6, -8]];
+  if (mode === 'showdown') {   // los puestos de abajo (7-10) restan
+    const tables = [[10, 8, 7, 6, 4, 2, -1, -2, -2, -3], [10, 8, 7, 6, 3, 1, -1, -2, -3, -3], [9, 7, 6, 5, 3, 1, -1, -2, -3, -4],
+      [9, 7, 6, 4, 2, 0, -2, -3, -4, -5], [8, 6, 5, 3, 1, -1, -2, -3, -4, -5], [8, 6, 4, 2, 0, -2, -3, -4, -5, -6], [7, 5, 3, 1, -1, -3, -4, -5, -6, -8]];
     return tables[tier][U.clamp(rank, 1, 10) - 1];
   }
-  if (mode === 'duoShowdown') {   // puesto de la pareja (1-5)
-    const tables = [[9, 7, 4, 2, 0], [9, 7, 4, 1, -1], [8, 6, 3, 0, -2], [8, 6, 3, -1, -3], [7, 5, 2, -2, -4], [7, 5, 1, -3, -5], [6, 4, 0, -4, -6]];
+  if (mode === 'duoShowdown') {   // puesto de la pareja (1-5): los dos últimos restan
+    const tables = [[9, 7, 4, -1, -3], [9, 7, 4, -1, -3], [8, 6, 3, -2, -3], [8, 6, 3, -2, -4], [7, 5, 2, -3, -4], [7, 5, 1, -3, -5], [6, 4, 0, -4, -6]];
     return tables[tier][U.clamp(rank, 1, 5) - 1];
   }
   if (result === 'win') return 8;
   if (result === 'draw') return 0;
-  return [0, -1, -2, -3, -4, -5, -6][tier];
+  const t = brawlerTrophies;
+  return t < 50 ? -2 : t < 150 ? -3 : t < 300 ? -4 : t < 500 ? -5 : t < 750 ? -6 : -8;
 }
 
 // Iconos SVG propios (estilo cartoon con contorno grueso)
@@ -2917,7 +3042,8 @@ const ICON = {
   // dos calaveras juntas (Supervivencia Dúo)
   duo: `<svg viewBox="0 0 32 32"><path d="M11 3.5C6.6 3.5 3.5 6.8 3.5 10.9c0 2.4 1.1 4.2 2.8 5.2v2.6h9.4v-2.6c1.7-1 2.8-2.8 2.8-5.2 0-4.1-3.1-7.4-7.5-7.4z" fill="#c9f2b0" stroke="#1b0f2e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="8.3" cy="11.2" r="2" fill="#1b0f2e"/><circle cx="13.7" cy="11.2" r="2" fill="#1b0f2e"/><path d="M21 10.5c-4.6 0-7.8 3.4-7.8 7.6 0 2.5 1.2 4.4 2.9 5.4v3.3h9.8v-3.3c1.8-1 2.9-2.9 2.9-5.4 0-4.2-3.2-7.6-7.8-7.6z" fill="#fff" stroke="#1b0f2e" stroke-width="2.6" stroke-linejoin="round"/><circle cx="18.2" cy="18.4" r="2.3" fill="#1b0f2e"/><circle cx="23.8" cy="18.4" r="2.3" fill="#1b0f2e"/><path d="M20 22.3l1-1.7 1 1.7z" fill="#1b0f2e"/><path d="M18.6 24.5v2.3M21 24.5v2.3M23.4 24.5v2.3" stroke="#1b0f2e" stroke-width="1.6"/></svg>`,
 };
-const MODE_ICON = { gem: ICON.gemMode, skull: ICON.skull, fist: ICON.fist, target: ICON.target, ball: ICON.ball, safe: ICON.safe, bounty: ICON.bountyStar, duo: ICON.duo };
+ICON.rankedMode = `<svg viewBox="0 0 32 32"><path d="M9 2h6l3 9h-6zM17 2h6l-3 9h-6z" fill="#ff4d6d" stroke="#1b0f2e" stroke-width="2.5" stroke-linejoin="round"/><circle cx="16" cy="20.5" r="9" fill="#ffd21f" stroke="#1b0f2e" stroke-width="3"/><path d="M16 15l1.7 3.4 3.8.6-2.8 2.6.7 3.8-3.4-1.8-3.4 1.8.7-3.8-2.8-2.6 3.8-.6z" fill="#fff6b0" stroke="#1b0f2e" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+const MODE_ICON = { ranked: ICON.rankedMode, gem: ICON.gemMode, skull: ICON.skull, fist: ICON.fist, target: ICON.target, ball: ICON.ball, safe: ICON.safe, bounty: ICON.bountyStar, duo: ICON.duo };
 
 function rewardText(r) {
   if (r.coins) return { icon: ICON.coin, text: r.coins };
@@ -3521,6 +3647,7 @@ function defaultProfile() {
     stars: [], hypers: [], roadV: 2,   // habilidades estelares e hipercargas compradas (ids de brawler) · versión del camino de trofeos
     passXp: 0, passPremium: false, passClaimed: [],
     quests: {}, stats: { wins: 0, kills: 0, cubes: 0, gems: 0, games: 0 },
+    ranked: { pts: 0, best: 0, bestIdx: 0, streak: 0, games: 0 },   // modo Competitivo (los puntos dan el rango: rankInfo)
     road: [], daily: '', seenHelp: false, netCode: '', friends: [], uid: '', club: null, clubs: [],
     settings: { music: .5, sfx: .8, shake: true, difficulty: 1, touch: 'auto', lobbyTheme: 'auto' },   // lobbyTheme: 'auto' | 'normal' | 'xmas'
   };
@@ -4269,6 +4396,94 @@ const Models = (() => {
         } },
       ],
     },
+    // ---- Justice: payaso justiciero (diseño propio): cara pintada de blanco, antifaz azul pintado, nariz de goma,
+    //      mechones verdes, gorguera, traje morado de lunares con una estrella, capa roja, zapatones y mazo de goma ----
+    justice: {
+      pal: { skin: '#fbf6ef', outfit: '#7b3fe4', dot: '#ffd23f', legs: '#2b7de9', shoes: '#ff3b3b', hand: '#ffffff', mask: '#1d3fae', nose: '#ff2d2d',
+        hair: '#2fd06a', ruff: '#ffffff', ruff2: '#ffd23f', cape: '#e53935', cape2: '#ffd23f', star: '#ffd23f', starRim: '#c98a00', mallet: '#ff4d4d', band: '#ffd23f', wood: '#a0693a' },
+      gait: 'waddle', opt: { w: 1.18, belly: 1, sleeve: 'long', head: [.31, .29, .29], handK: 1.2 },
+      eyes: { iris: '#2a7be0', brow: '#1b1b1b', browT: -.1 }, mouth: 'grin', cheeks: '#ff5a6e',
+      extra(S) {
+        // antifaz de justiciero pintado en la cara (los ojos 3D quedan por delante)
+        const head = S.L.find(L => L.bone === 'head');
+        head.col = (x, y, z) => z > .1 && (Math.hypot(Math.abs(x) - .115, (y - 1.105) * 1.35) < .1 || (Math.abs(x) < .06 && Math.abs(y - 1.115) < .028)) ? 'mask' : 'skin';
+        // traje de lunares con una estrella grande en el pecho
+        const star = (px, py, R) => { const a = Math.atan2(py, px) - Math.PI / 2, f = ((a / TAU * 5) % 1 + 1) % 1; return Math.hypot(px, py) - R * (.45 + .55 * Math.abs(f * 2 - 1)); };
+        for (const L of S.L) if (L.col === 'outfit') L.col = (x, y, z) => {
+          if (z > .12 && Math.abs(x) < .11 && Math.abs(y - .63) < .11) { const d = star(x, y - .63, .095); if (d < -.012) return 'star'; if (d < .004) return 'starRim'; }
+          const u = x * 13, v = y * 13, w = z * 13, du = u - Math.round(u), dv = v - Math.round(v), dw = w - Math.round(w);
+          return Math.hypot(du, dv, dw) < .26 ? 'dot' : 'outfit';
+        };
+        // nariz de goma, gorguera, cinturón y zapatones
+        S.add(F.sph([0, 1.04, .3], .068), 'nose', 'head', .015);
+        S.add(F.torus([0, .785, 0], .165, .05), (x, y, z) => Math.sin(Math.atan2(x, z) * 12) > 0 ? 'ruff' : 'ruff2', 'neck', .02);
+        S.add(F.ell([0, .46, 0], [.27, .04, .2]), 'legs', 'hips', .01);
+        for (const d of [-1, 1]) S.add(F.ell([d * .12, .055, .11], [.11, .07, .2]), 'shoes', d < 0 ? 'footL' : 'footR', .03);
+      },
+      parts: () => [
+        // mechones de pelo verde a los lados (con muelle) y uno en la coronilla
+        ...[-1, 1].map(d => ({ bone: 'head', spring: { at: [d * .3, 1.16, -.04], k: 40, c: 5, gain: .18, sign: d }, cell: .011, sculpt: S => {
+          for (const [ox, oy, oz, r] of [[0, 0, 0, .085], [.05, .07, -.03, .07], [.06, -.07, -.02, .07], [.1, .01, -.06, .065]]) S.add(F.sph([d * (.3 + ox), 1.16 + oy, -.04 + oz], r), 'hair', null, .04);
+        } })),
+        { bone: 'head', spring: { at: [0, 1.36, -.02], k: 60, c: 7, gain: .1 }, cell: .011, sculpt: S => { S.add(F.sph([0, 1.37, -.03], .06), 'hair', null, .03); S.add(F.sph([.05, 1.42, -.07], .045), 'hair', null, .03); } },
+        // capa de superhéroe (ondea al correr): roja por fuera y amarilla por dentro
+        { bone: 'chest', spring: { at: [0, .76, -.2], k: 26, c: 4, gain: .22, run: .4 }, cell: .012, sculpt: S => {
+          S.add(F.ell([0, .5, -.25], [.27, .33, .035], [.12, 0, 0]), (x, y, z) => z > -.245 + (y - .5) * .12 ? 'cape2' : 'cape', null, .03);
+          S.add(F.ell([0, .77, -.19], [.28, .05, .07]), 'cape', null, .03);
+        } },
+        // mazo gigante de goma
+        { bone: 'handR', weapon: true, cell: .012, sculpt: S => {
+          S.add(F.cap([0, 0, -.06], [0, 0, .42], .028), 'wood', null, .01);
+          S.add(F.cap([-.13, 0, .52], [.13, 0, .52], .11), 'mallet', null, .03);
+          for (const d of [-1, 1]) S.add(F.torus([d * .1, 0, .52], .105, .022, [0, 0, Math.PI / 2]), 'band', null, .01);
+        } },
+      ],
+    },
+    // ---- Spartacus: luchador enmascarado y fanfarrón (diseño propio): máscara dorada con llamas rojas, cresta de
+    //      gladiador, capa morada, cinturón de campeón, brazaletes, botas altas y puños vendados ----
+    spartacus: {
+      pal: { skin: '#e3a073', outfit: '#d62828', legs: '#d62828', shoes: '#b81d24', hand: '#e3a073', mask: '#ffc93a', trim: '#d62828',
+        crest: '#e53935', crest2: '#ff8a3c', metal: '#b8c0ca', gold: '#ffd23f', gold2: '#e0a400', gem: '#3aa0ff', cape: '#7b2ff7', cape2: '#ffd23f', tape: '#f4f4f0', boot2: '#ffd23f' },
+      gait: 'swagger', opt: { w: 1.28, shoulder: 1.15, armR: 1.32, sleeve: 'none', head: [.27, .27, .27], hc: [0, 1.06, 0], handK: 1.15 },
+      eyes: { iris: '#6a3a14', brow: '#2a1a10', browT: .14 }, mouth: 'grin',
+      extra(S) {
+        // máscara de luchador: toda la cabeza menos la boca y la barbilla, con un marco rojo alrededor de los ojos
+        const head = S.L.find(L => L.bone === 'head');
+        head.col = (x, y, z) => {
+          if (z > .06 && y < .995 - Math.abs(x) * .2) return 'skin';
+          if (z > .05 && Math.hypot(Math.abs(x) - .112, (y - 1.085) * 1.15) < .104) return 'trim';
+          if (Math.abs(x) < .022 && y > 1.15) return 'trim';
+          return 'mask';
+        };
+        // maillot de lucha (los brazos van al aire) con pectorales marcados
+        for (const d of [-1, 1]) S.add(F.ell([d * .1, .69, .12], [.1, .07, .06]), 'outfit', 'chest', .05);
+        // cinturón de campeón con hebilla grande y una gema
+        S.add(F.ell([0, .47, 0], [.26, .055, .2]), 'gold2', 'hips', .01);
+        S.add(F.rbox([0, .47, .2], [.1, .075, .022], .02), (x, y) => Math.hypot(x, y - .47) < .035 ? 'gem' : 'gold', 'hips', .01);
+        // brazaletes dorados y botas altas con borde dorado
+        for (const d of [-1, 1]) S.add(F.torus([d * .33, .63, 0], .075, .018, [0, 0, d * .35]), 'gold', d < 0 ? 'armL' : 'armR', .01);
+        for (const L of S.L) if (/^shin/.test(L.bone) && L.col === 'legs') L.col = (x, y) => y > .25 ? 'legs' : y > .215 ? 'boot2' : 'shoes';
+      },
+      parts: () => [
+        // cresta de gladiador sobre la máscara, de la frente a la nuca (con muelle)
+        { bone: 'head', spring: { at: [0, 1.3, -.02], k: 55, c: 6, gain: .12 }, cell: .011, sculpt: S => {
+          const R = .27, cy = 1.06;
+          for (let i = 0; i <= 10; i++) {
+            const a = -.95 + i * .23, y = cy + R * Math.cos(a), z = -R * Math.sin(a), up = Math.sin((i / 10) * Math.PI);
+            S.add(F.sph([0, y, z], .028), 'metal', null, .01);
+            S.add(F.sph([0, cy + (R + .05 + up * .07) * Math.cos(a), -(R + .05 + up * .07) * Math.sin(a)], .045 + up * .03), i % 2 ? 'crest2' : 'crest', null, .03);
+          }
+        } },
+        // capa morada con broches dorados
+        { bone: 'chest', spring: { at: [0, .78, -.2], k: 26, c: 4, gain: .22, run: .4 }, cell: .012, sculpt: S => {
+          S.add(F.ell([0, .52, -.25], [.3, .32, .035], [.12, 0, 0]), (x, y, z) => z > -.245 + (y - .52) * .12 ? 'cape2' : 'cape', null, .03);
+          for (const d of [-1, 1]) S.add(F.sph([d * .23, .78, -.13], .05), 'gold', null, .02);
+        } },
+        // puños vendados
+        { bone: 'handR', weapon: true, cell: .009, sculpt: S => { for (let k = 0; k < 3; k++) S.add(F.torus([0, 0, -.03 - k * .035], .066, .016, [Math.PI / 2, 0, 0]), 'tape', null, .008); } },
+        { bone: 'handL', cell: .009, sculpt: S => { for (let k = 0; k < 3; k++) S.add(F.torus([-.385, .5 + k * .035, .02], .066, .016), 'tape', null, .008); } },
+      ],
+    },
   };
 
   // =================== construcción (con caché de geometría) ===================
@@ -4615,6 +4830,26 @@ const Models = (() => {
       if (lob) { B.hips.position.y += (.08 + Math.abs(Math.sin(t * 8)) * .06) * lob; B.thighL.rotation.x -= .45 * lob; B.thighR.rotation.x -= .45 * lob; B.shinL.rotation.x += .8 * lob; B.shinR.rotation.x += .8 * lob; }
       if (st.recoil > .3) B.head.rotation.x += st.recoil * .25;   // escupe la bola de fuego
     },
+    // Justice: en el lobby, pose de superhéroe con los puños en la cintura y, de vez en cuando, se aprieta la nariz de goma
+    justice(u, B, st, t) {
+      if (st.pose === 'lobby' && !st.aiming) {
+        const h = cyc(t, 7, .4, 3.4), k = cyc(t, 7, 4.3, 1.8), sq = Math.abs(Math.sin(t * 16)) * k;
+        B.armL.rotation.z -= .85 * h; B.foreL.rotation.x -= 1.5 * h; B.armR.rotation.z += .85 * h; B.foreR.rotation.x -= 1.5 * h;
+        B.chest.scale.multiplyScalar(1 + .04 * h); B.head.rotation.x -= .12 * h;
+        B.armL.rotation.x -= 2.1 * k; B.armL.rotation.y += .5 * k; B.foreL.rotation.x -= 1.4 * k; B.head.rotation.z += .08 * sq; B.head.rotation.x += .1 * sq;
+      } else if (!st.moving) B.hips.position.y += Math.abs(Math.sin(t * 2.4)) * .01;
+    },
+    // Spartacus: saca bíceps con los dos brazos y luego se marca un baile fanfarrón
+    spartacus(u, B, st, t) {
+      if (!st.moving) B.chest.scale.multiplyScalar(1 + Math.sin(t * 2.2) * .015);
+      if (st.pose === 'lobby' && !st.aiming) {
+        const f = cyc(t, 8, .4, 2.8), d = cyc(t, 8, 4, 3.4), w = Math.sin(t * 9) * d;
+        B.armL.rotation.z -= 1.45 * f; B.armR.rotation.z += 1.45 * f; B.foreL.rotation.x -= 1.9 * f; B.foreR.rotation.x -= 1.9 * f;
+        B.chest.scale.multiplyScalar(1 + .05 * f); B.head.rotation.x -= .1 * f;
+        B.hips.rotation.z += w * .14; B.hips.position.x += w * .03; B.spine.rotation.z -= w * .1; B.head.rotation.z += w * .1;
+        B.armL.rotation.x -= 2.3 * d; B.armR.rotation.x -= 2.3 * d; B.foreL.rotation.x -= .6 * d * (1 + w); B.foreR.rotation.x -= .6 * d * (1 - w);
+      }
+    },
   };
   // curva 0→1→0 de un gesto que se repite cada `period` s, empieza en `start` y dura `dur`
   function cyc(t, period, start, dur) { const x = (t % period) - start; return x < 0 || x > dur ? 0 : Math.sin(x / dur * Math.PI); }
@@ -4873,19 +5108,38 @@ class World {
 'use strict';
 // =====================================================================
 //  BOTS: deciden adónde ir, a quién disparar y cuándo usar el súper.
-//  Dificultad 0 = fácil, 1 = normal, 2 = difícil.
+//  Dificultad 0 = fácil, 1 = normal, 2 = difícil y 3 = experto (solo en
+//  Competitivo). Puede tener decimales: los valores se mezclan entre niveles.
 // =====================================================================
 
+// err: fallo de puntería (radianes) · react: tiempo extra entre disparos · fire: ganas de disparar
+// lead: cuánto adelanta el tiro · dodge: esquivar balas · superUse: usar el súper · strafe: moverse de lado
+// think: cada cuánto piensa (s) · dmg: daño de los bots RIVALES (los compañeros siempre pegan normal)
 const AI_DIFF = [
-  { err: .34, react: .7, fire: .5, lead: .2, dodge: .25, superUse: .5, see: 1 },
-  { err: .17, react: .4, fire: .75, lead: .6, dodge: .6, superUse: .8, see: 1 },
-  { err: .06, react: .18, fire: .95, lead: 1, dodge: .9, superUse: 1, see: 1 },
+  { err: .55, react: 1.1, fire: .42, lead: 0, dodge: .08, superUse: .3, strafe: .35, think: .45, dmg: .7 },
+  { err: .32, react: .7, fire: .6, lead: .35, dodge: .3, superUse: .55, strafe: .6, think: .33, dmg: .85 },
+  { err: .17, react: .42, fire: .8, lead: .75, dodge: .6, superUse: .85, strafe: .85, think: .25, dmg: 1 },
+  { err: .08, react: .22, fire: .93, lead: 1, dodge: .85, superUse: 1, strafe: 1, think: .19, dmg: 1.05 },
 ];
 const BUSH_SEE = 2.7 * T;   // distancia a la que ves a alguien escondido en un arbusto
 
 const AI = {
   create(e, G) {
-    return { thinkT: U.rand(.1, .4), target: null, goal: null, strafe: U.rand(TAU), sdir: U.chance(.5) ? 1 : -1, fireCd: U.rand(.4, 1), last: null, stuckT: 0, lx: e.x, ly: e.y, dodge: null, offset: { x: U.rand(-1, 1) * T, y: U.rand(-1, 1) * T } };
+    return { thinkT: U.rand(.1, .4), target: null, goal: null, strafe: U.rand(TAU), sdir: U.chance(.5) ? 1 : -1, strafeT: U.rand(.8, 2), fireCd: U.rand(.4, 1), last: null, stuckT: 0, lx: e.x, ly: e.y, dodge: null, offset: { x: U.rand(-1, 1) * T, y: U.rand(-1, 1) * T },
+      mx: 0, my: 0, arrived: false, band: 'go', unstuck: null, err: 0, errTo: 0, errT: 0, errD: 1 };
+  },
+
+  // valores de dificultad para este bot (mezclando niveles si la dificultad tiene decimales).
+  // Tus compañeros bots juegan como mínimo en normal y con todo su daño, para que en fácil no ganes tú solo.
+  params(G, e) {
+    let lv = G.difficulty ?? 1;
+    const P = G.player, ally = !!(e && P && e !== P && e.team === P.team);
+    if (ally) lv = Math.max(lv, 1);
+    lv = U.clamp(lv, 0, AI_DIFF.length - 1);
+    const i = Math.min(AI_DIFF.length - 2, Math.floor(lv)), f = lv - i, A = AI_DIFF[i], B = AI_DIFF[i + 1], o = {};
+    for (const k in A) o[k] = A[k] + (B[k] - A[k]) * f;
+    if (ally) o.dmg = 1;
+    return o;
   },
 
   // ¿Puede el equipo `team` ver a `e`? (arbustos e invisibilidad)
@@ -4899,34 +5153,44 @@ const AI = {
   },
 
   think(e, G, dt) {
-    const a = e.ai, D = AI_DIFF[G.difficulty] || AI_DIFF[1], W = G.world, atk = e.def.attack;
+    const a = e.ai, D = this.params(G, e), W = G.world, atk = e.def.attack;
+    e.botDmg = D.dmg;
     if (a.reset) { a.reset = false; a.target = null; a.goal = null; }
     if (e.dummy) return this.dummy(e, G, dt);
     a.thinkT -= dt; a.fireCd -= dt;
-    if (a.thinkT <= 0) { a.thinkT = U.rand(.18, .32); this.decide(e, G, a, D); }
+    if (a.thinkT <= 0) { a.thinkT = D.think * U.rand(.8, 1.25); this.decide(e, G, a, D); }
     const c = { mx: 0, my: 0 };
     const t = a.target && !a.target.dead ? a.target : null;
     const range = atk.range * T;
 
-    // --- movimiento ---
-    let gx = a.goal ? a.goal.x : e.x, gy = a.goal ? a.goal.y : e.y;
-    const dGoal = Math.hypot(gx - e.x, gy - e.y);
-    if (a.goal && dGoal > 14) { const p = W.pathDir(e.x, e.y, gx, gy, e.r); c.mx = p.x; c.my = p.y; }
-    // en combate: moverse de lado para esquivar
+    // --- movimiento: primero adónde QUIERE ir (dx, dy)… ---
+    let dx = 0, dy = 0;
+    const gx = a.goal ? a.goal.x : e.x, gy = a.goal ? a.goal.y : e.y, dGoal = Math.hypot(gx - e.x, gy - e.y);
+    // al llegar se para, y no vuelve a arrancar hasta que el objetivo se aleja un poco (si no, va a tirones)
+    if (!a.goal) a.arrived = true; else if (a.arrived) { if (dGoal > 48) a.arrived = false; } else if (dGoal < 16) a.arrived = true;
+    if (a.goal && !a.arrived) { const p = W.pathDir(e.x, e.y, gx, gy, e.r); dx = p.x; dy = p.y; }
+    // en combate: moverse de lado para esquivar, cambiando de sentido cada 1-2 s (no a cada momento)
     if (t && a.fighting) {
-      a.strafe += dt * (1.5 + Math.random());
-      const ang = Math.atan2(t.y - e.y, t.x - e.x) + Math.PI / 2 * a.sdir;
-      const k = .55 + Math.sin(a.strafe) * .45;
-      c.mx += Math.cos(ang) * k; c.my += Math.sin(ang) * k;
-      if (Math.random() < dt * .5) a.sdir *= -1;
+      a.strafeT -= dt; if (a.strafeT <= 0) { a.sdir *= -1; a.strafeT = U.rand(.9, 2.2); }
+      a.strafe += dt * 1.6;
+      const ang = Math.atan2(t.y - e.y, t.x - e.x) + Math.PI / 2 * a.sdir, k = D.strafe * (.6 + Math.sin(a.strafe) * .4);
+      dx += Math.cos(ang) * k; dy += Math.sin(ang) * k;
     }
-    if (a.dodge) { c.mx += a.dodge.x * 1.6; c.my += a.dodge.y * 1.6; a.dodge.t -= dt; if (a.dodge.t <= 0) a.dodge = null; }
-    // ¿atascado?
-    if (Math.hypot(e.x - a.lx, e.y - a.ly) < 1.5 && Math.hypot(c.mx, c.my) > .3) { a.stuckT += dt; if (a.stuckT > .6) { a.sdir *= -1; a.stuckT = 0; a.offset = { x: U.rand(-1.5, 1.5) * T, y: U.rand(-1.5, 1.5) * T }; c.mx = U.rand(-1, 1); c.my = U.rand(-1, 1); } }
-    else a.stuckT = 0;
+    if (a.dodge) { dx += a.dodge.x * 1.6; dy += a.dodge.y * 1.6; a.dodge.t -= dt; if (a.dodge.t <= 0) a.dodge = null; }
+    // ¿atascado contra algo? se aparta de lado un momento (y no da un tirón en una dirección al azar)
+    if (Math.hypot(e.x - a.lx, e.y - a.ly) < 1.2 && Math.hypot(a.mx, a.my) > .5) {
+      a.stuckT += dt;
+      if (a.stuckT > .6) { a.stuckT = 0; a.sdir *= -1; a.offset = { x: U.rand(-1.5, 1.5) * T, y: U.rand(-1.5, 1.5) * T }; const an = Math.atan2(dy || a.my, dx || a.mx) + Math.PI / 2 * a.sdir; a.unstuck = { x: Math.cos(an), y: Math.sin(an), t: .45 }; }
+    } else a.stuckT = 0;
+    if (a.unstuck) { dx = a.unstuck.x; dy = a.unstuck.y; a.unstuck.t -= dt; if (a.unstuck.t <= 0) a.unstuck = null; }
     a.lx = e.x; a.ly = e.y;
     // no pisar lava
-    if (W.tileAt(e.x + c.mx * 30, e.y + c.my * 30) === TILE.LAVA && W.tileAt(e.x, e.y) !== TILE.LAVA) { const tmp = c.mx; c.mx = -c.my * a.sdir; c.my = tmp * a.sdir; }
+    if (W.tileAt(e.x + dx * 30, e.y + dy * 30) === TILE.LAVA && W.tileAt(e.x, e.y) !== TILE.LAVA) { const tmp = dx; dx = -dy * a.sdir; dy = tmp * a.sdir; }
+    // …y luego el «dedo en el joystick»: la dirección cambia en curva y frena poco a poco, como una persona
+    const dl = Math.hypot(dx, dy); if (dl > 1) { dx /= dl; dy /= dl; }
+    const sm = 1 - Math.exp(-dt * (a.dodge || a.unstuck ? 14 : 7));
+    a.mx += (dx - a.mx) * sm; a.my += (dy - a.my) * sm;
+    c.mx = a.mx; c.my = a.my;
 
     // --- disparar ---
     const tgt = a.boxTarget && a.boxTarget.kind === 'turret' && a.boxTarget.hp > 0 ? a.boxTarget : t || a.boxTarget;
@@ -4938,8 +5202,11 @@ const AI = {
       const sp = lob ? d / (atk.flight || .8) : atk.speed * T;
       const lead = (tgt.mvx !== undefined ? D.lead : 0) * d / sp;
       let px = tgt.x + (tgt.mvx || 0) * lead, py = tgt.y + (tgt.mvy || 0) * lead;
-      const err = (Math.random() - .5) * D.err * 2, ang = Math.atan2(py - e.y, px - e.x) + err;
-      const pd = Math.hypot(px - e.x, py - e.y) * (lob ? U.rand(1 - D.err * .6, 1 + D.err * .6) : 1);
+      // el fallo de puntería cambia poco a poco (no a cada fotograma: si no, el brawler tiembla al apuntar)
+      a.errT -= dt; if (a.errT <= 0) { a.errT = U.rand(.3, .7); a.errTo = (Math.random() - .5) * D.err * 2; a.errDTo = lob ? U.rand(1 - D.err * .6, 1 + D.err * .6) : 1; }
+      const ek = Math.min(1, dt * 5); a.err += (a.errTo - a.err) * ek; a.errD += ((a.errDTo || 1) - a.errD) * ek;
+      const ang = Math.atan2(py - e.y, px - e.x) + a.err;
+      const pd = Math.hypot(px - e.x, py - e.y) * (lob ? a.errD : 1);
       c.aimX = e.x + Math.cos(ang) * pd; c.aimY = e.y + Math.sin(ang) * pd; c.aiming = true;
       if (los && d < range * .97 && e.ammo >= 1 && a.fireCd <= 0) {
         a.fireCd = U.rand(.15, .45) + D.react * U.rand(.3, 1);
@@ -5069,12 +5336,13 @@ const AI = {
     a.goal = goal;
   },
 
-  // posición para pelear: acercarse o alejarse según el alcance preferido
+  // posición para pelear: acercarse o alejarse según el alcance preferido. Con margen: el que se acerca
+  // sigue hasta estar bien dentro y el que se aleja sigue hasta estar bien fuera (si no, va y viene a saltitos)
   engage(e, t, want, W) {
-    const d = Math.hypot(t.x - e.x, t.y - e.y);
-    if (d > want * 1.1 || W.shotBlocked(e.x, e.y, t.x, t.y)) return { x: t.x, y: t.y };
-    if (d < want * .7) { const a = Math.atan2(e.y - t.y, e.x - t.x); return { x: U.clamp(e.x + Math.cos(a) * T * 1.5, T, W.pw - T), y: U.clamp(e.y + Math.sin(a) * T * 1.5, T, W.ph - T) }; }
-    return null;
+    const a = e.ai, d = Math.hypot(t.x - e.x, t.y - e.y);
+    if (W.shotBlocked(e.x, e.y, t.x, t.y) || d > want * (a.band === 'go' ? .95 : 1.2)) { a.band = 'go'; return { x: t.x, y: t.y }; }
+    if (d < want * (a.band === 'back' ? .82 : .6)) { a.band = 'back'; const an = Math.atan2(e.y - t.y, e.x - t.x); return { x: U.clamp(e.x + Math.cos(an) * T * 2, T, W.pw - T), y: U.clamp(e.y + Math.sin(an) * T * 2, T, W.ph - T) }; }
+    a.band = 'hold'; return null;
   },
 
   nearest(e, list) {
@@ -5382,7 +5650,7 @@ const Game = {
   },
 
   canAct(e) { return !e.dead && !e.dash && !e.leap && !(e.fx.stun > 0) && !(this.G.phase !== 'play'); },
-  dmgMul(e) { return e.dmgMul * (1 + MATCH.showdown.cubeDmg * e.cubes) * (e.hyperT > 0 ? HYPER.dmg : 1); },
+  dmgMul(e) { return e.dmgMul * (e.botDmg || 1) * (1 + MATCH.showdown.cubeDmg * e.cubes) * (e.hyperT > 0 ? HYPER.dmg : 1); },   // botDmg: los bots rivales pegan menos en fácil/normal (ai.js)
 
   attack(e, tx, ty) {
     if (this.G.ball && this.G.ball.carrier === e) return this.canAct(e) && Ball.kick(this.G, e, tx, ty, false);   // con el balón: chutar
@@ -5417,7 +5685,7 @@ const Game = {
       dist: 0, max: atk.range * T, r: atk.radius || 7, dmg: atk.dmg * this.dmgMul(e), owner: e, team: e.team,
       pierce: !!atk.pierce, breakWalls: !!atk.breakWalls, charge: sup ? 0 : (atk.charge || 0), proj: atk.proj, hit: new Set(), sup, knock: atk.knock || 0, t: 0,
       // mecánicas extra: rebote en muros, ancla que arrastra, bumerán, rebote entre rivales, explosión al chocar, quemadura
-      bounce: atk.bounce || 0, pull: !!atk.pull, ret: !!atk.ret, back: false, splash: (atk.splash || 0) * T, burn: atk.burn || null,
+      bounce: atk.bounce || 0, pull: !!atk.pull, ret: !!atk.ret, back: false, splash: (atk.splash || 0) * T, burn: atk.burn || null, slow: sup ? 0 : (atk.slow || 0),
       chain: atk.chain ? atk.chain + (sup ? 0 : this.starVal(e, 'chainPlus', 0, 'n')) : 0, chainR: (atk.chainRange || 3.5) * T,
     });
     if (atk.burst) { e.anim.recoil = 1; if (atk.sfx) this.sfxAt(atk.sfx, e, .6); }
@@ -5499,7 +5767,7 @@ const Game = {
         let a = (Math.abs(c.mx || 0) + Math.abs(c.my || 0)) > .1 ? Math.atan2(c.my, c.mx) : e.aim + Math.PI;
         e.dash = { a, left: g.dist * T, speed: 20 * T, dmg: 0, hit: new Set(), kind: 'dodge' }; break;
       }
-      case 'nova': this.explode(e, e.x, e.y, g.area * T, g.dmg * this.dmgMul(e), { knock: g.knock, col: '#ff7a1a', fx: g.fx || 'bombNova', burn: g.burn }); break;
+      case 'nova': this.explode(e, e.x, e.y, g.area * T, g.dmg * this.dmgMul(e), { knock: g.knock, col: g.col || '#ff7a1a', fx: g.fx || 'bombNova', burn: g.burn, stun: g.stun }); break;
       case 'frost':
         for (const o of this.enemiesOf(e)) if (U.dist(o.x, o.y, e.x, e.y) < g.area * T + o.r) { this.damage(o, g.dmg * this.dmgMul(e), e); o.fx.slow = this.slowFor(e, g.slow); }
         this.sfxAt('freeze', e); break;
@@ -5801,6 +6069,7 @@ const Game = {
             const st = !p.sup && !p.turret && p.owner && p.owner.star;
             if (p.burn) this.burnTarget(e, p.owner, p.burn.dmg, p.burn.dur);
             else if (st && st.kind === 'burnOnHit') this.burnTarget(e, p.owner, st.dmg, st.dur);
+            if (p.slow) e.fx.slow = Math.max(e.fx.slow, this.slowFor(p.owner, p.slow));   // (la tarta de Justice frena un poco)
             if (p.pull) this.pullTo(e, p.owner);
             else if (p.knock) this.knockback(e, p.a, p.knock);
           }
@@ -6090,7 +6359,7 @@ const Game = {
     const score = e => e.kills * 10 + e.dmgDone / 150 + e.gems * 4 + e.zoneT * 2 + (e.goals || 0) * 15 + (e.team === (o.winner ?? -9) ? 15 : 0) + (G.mode === 'showdown' ? (11 - (e.rank || 1)) * 5 : G.mode === 'duoShowdown' ? (6 - (e.rank || 1)) * 10 : 0);
     const pool = Modes.sd(G.mode) ? G.ents : G.ents.filter(e => result === 'loss' ? e.team === 1 : result === 'win' ? e.team === 0 : true);
     const star = pool.slice().sort((a, b) => score(b) - score(a))[0];
-    G.result = { mode: G.mode, map: G.world.def.name, result, rank: o.rank || 0, winner: o.winner, star, ents: G.ents.slice(), player: P, roundWins: G.roundWins.slice(), score: G.score ? G.score.slice() : null,
+    G.result = { ranked: !!(G.cfg && G.cfg.ranked), mode: G.mode, map: G.world.def.name, result, rank: o.rank || 0, winner: o.winner, star, ents: G.ents.slice(), player: P, roundWins: G.roundWins.slice(), score: G.score ? G.score.slice() : null,
       stars: G.stars ? G.stars.slice() : null, safeDmg: G.safeDmg ? G.safeDmg.slice() : null };   // Caza Estelar / Atraco
   },
 
@@ -6279,7 +6548,7 @@ const Ball = {
     if (G.ball.carrier !== e) return;
     c.fire = false; c.superFire = false;
     if (!a.kickNow && !a.kickSuper) return;
-    const g = this.goalCenter(G, 1 - e.team), err = (AI_DIFF[G.difficulty] || AI_DIFF[1]).err * T * 2;
+    const g = this.goalCenter(G, 1 - e.team), err = AI.params(G, e).err * T * 2;
     c.aimX = g.x + U.rand(-err, err); c.aimY = g.y; c.aiming = true;
     if (a.kickSuper) c.superFire = true; else c.fire = true;
     a.kickNow = a.kickSuper = false;
@@ -6517,7 +6786,7 @@ const Modes = (() => {
     // súper contra la caja rival (lo llama AI.think)
     aiFire(e, G, a, c) {
       if (G.phase !== 'play' || e.super < 1 || c.superFire || !a.safeAim || a.target) return;
-      const s = e.def.super, k = s.kind, D = AI_DIFF[G.difficulty] || AI_DIFF[1];
+      const s = e.def.super, k = s.kind, D = AI.params(G, e);
       if (k === 'turbo' || Math.random() > D.superUse * .25) return;
       const sa = a.safeAim, d = sa.d, W = G.world;
       let ok, ax = sa.x, ay = sa.y;
@@ -6950,7 +7219,7 @@ const Modes = (() => {
 //  · Los dos tienen que tener la MISMA versión del juego (NET_PROTO).
 // =====================================================================
 
-const NET_PROTO = 'pm-brawl-8';            // cámbialo cuando cambie algo de la partida
+const NET_PROTO = 'pm-brawl-9';            // cámbialo cuando cambie algo de la partida
 const NET_PREFIX = 'pmbrawl-v5-';          // prefijo de los identificadores en PeerJS
 const NET_MAX = 3;                         // jugadores por equipo (como en el original)
 const NET_SNAP = 1 / 30;                   // cada cuánto manda el líder el estado
@@ -7101,9 +7370,9 @@ const Net = {
   // ------------------------------------------------------------ líder (host)
   broadcastParty() {
     if (this.role !== 'host') return;
-    const p = Save.p, list = mapsForMode(p.mode), map = (MAP[p.maps[p.mode]] || list[0]).id;
+    const p = Save.p, mode = MODES[p.mode] && !MODES[p.mode].ranked ? p.mode : 'gemGrab', list = mapsForMode(mode), map = (MAP[p.maps[mode]] || list[0]).id;
     this.members[0] = Object.assign(this.members[0] || {}, this.myInfo(), { peer: 'me', leader: true, ready: true });
-    const msg = { t: 'party', members: this.members.map(m => ({ name: m.name, brawler: m.brawler, skin: m.skin, level: m.level, trophies: m.trophies, ready: m.ready, leader: !!m.leader, peer: m.peer === 'me' ? 'host' : m.peer })), mode: p.mode, map };
+    const msg = { t: 'party', members: this.members.map(m => ({ name: m.name, brawler: m.brawler, skin: m.skin, level: m.level, trophies: m.trophies, ready: m.ready, leader: !!m.leader, peer: m.peer === 'me' ? 'host' : m.peer })), mode, map };
     for (const c of this.conns.values()) { try { c.send(msg); } catch (_) {} }
     this.changed();
   },
@@ -7407,7 +7676,7 @@ const CLUB_CONFIG = {
 // Versión de esta copia del juego. En la carpeta principal (la de desarrollo) es la
 // de la próxima publicación y solo la cambia tools/publicar.sh, así nunca es menor que
 // la del enlace y el aviso de versión nueva no sale mientras se desarrolla.
-const GAME_VERSION = '9';
+const GAME_VERSION = '10';
 // Enlace fijo del juego publicado: siempre tiene la última versión y su version.json
 const WEB_URL = 'https://aldicarus.github.io/los-mayoristas-brawl/';
 
@@ -7421,6 +7690,9 @@ const WEB_URL = 'https://aldicarus.github.io/los-mayoristas-brawl/';
 //  llega al momento con EventSource. Los demás se revisan cada poco para
 //  contar los mensajes sin leer. Cada club tiene un CÓDIGO de 10 letras.
 //  Solo sales de un club con el botón "SALIR DEL CLUB".
+//  Para entrar hay que PEDIRLO: quien escribe el código queda como miembro «pend»
+//  (pendiente) y el creador del club decide ACEPTAR o IGNORAR. El creador también
+//  puede EXPULSAR. Los pendientes no cuentan como miembros ni ven el chat.
 // =====================================================================
 
 const CLUB_BADGES = ['🛡️', '⚔️', '🔥', '⭐', '🐉', '🦊', '🚀', '👑', '🌵', '❄️', '🍕', '⚡', '🎮', '🐼', '🦖', '🏆'];
@@ -7483,13 +7755,22 @@ const Club = {
     const info = await this.req('GET', `clubs/${code}/info`);
     if (!info) throw new Error('No existe ningún club con ese código');
     const mem = await this.req('GET', `clubs/${code}/members`) || {};
-    const uid = this.uid();
-    if (!mem[uid] && Object.keys(mem).length >= CLUB_MAX) throw new Error('Ese club está lleno');
-    await this.req('PUT', `clubs/${code}/members/${uid}`, Object.assign(this.me(), { r: mem[uid] ? mem[uid].r : 'miembro', j: { '.sv': 'timestamp' } }));
-    this.mine().push({ id: code, read: '' }); Save.save();
-    this.sum.set(code, { info, total: Object.keys(mem).length + 1, online: 1, unread: 0, last: null });
-    if (!mem[uid]) await this.system(code, `${Save.p.name} se ha unido al club`);
-    return code;
+    const uid = this.uid(), was = mem[uid];
+    if (was && was.r !== 'pend') {   // ya era miembro (por ejemplo, desde otra copia del juego con el mismo progreso)
+      this.mine().push({ id: code, read: '' }); Save.save(); this.poll(code);
+      return { id: code, pend: false };
+    }
+    if (Object.values(mem).filter(m => m.r !== 'pend').length >= CLUB_MAX) throw new Error('Ese club está lleno');
+    // se pide entrar: hasta que el creador lo acepte, es un miembro «pend» (pendiente)
+    await this.req('PUT', `clubs/${code}/members/${uid}`, Object.assign(this.me(), { r: 'pend', j: { '.sv': 'timestamp' } }));
+    this.mine().push({ id: code, read: '', pend: true }); Save.save();
+    this.sum.set(code, { info, total: 0, online: 0, unread: 0, last: null });
+    return { id: code, pend: true, name: info.name };
+  },
+  // cancelar mi solicitud
+  async cancel(id) {
+    try { await this.req('DELETE', `clubs/${id}/members/${this.uid()}`); } catch (_) {}
+    Save.p.clubs = this.mine().filter(c => c.id !== id); Save.save(); this.sum.delete(id); this.changed();
   },
   // salir de un club (solo con el botón SALIR DEL CLUB)
   async leave(id) {
@@ -7498,6 +7779,45 @@ const Club = {
     if (this.active === id) this.close();
     Save.p.clubs = this.mine().filter(c => c.id !== id); Save.save();
     this.sum.delete(id); this.changed();
+  },
+  // ¿soy el creador del club? (solo él acepta, ignora y expulsa)
+  isOwner(id = this.active) {
+    const I = id === this.active && this.info ? this.info : (this.sum.get(id) || {}).info;
+    return !!I && I.owner === this.uid();
+  },
+  // expulsar: se le quita del club. Para volver tendría que pedirlo otra vez (y el creador decide)
+  async kick(uid, name) {
+    const id = this.active;
+    if (!id || !this.isOwner(id) || uid === this.uid()) return;
+    name = String(name || 'Jugador').slice(0, 16);
+    await this.req('DELETE', `clubs/${id}/members/${uid}`);
+    delete this.members[uid]; this.changed();
+    await this.system(id, `${name} ha sido expulsado del club`);
+  },
+  // aceptar una solicitud: pasa a ser miembro de verdad
+  async accept(uid, name) {
+    const id = this.active, m = this.members[uid];
+    if (!id || !this.isOwner(id) || !m || m.r !== 'pend') return;
+    if (this.memberList().length >= CLUB_MAX) throw new Error('El club está lleno');
+    await this.req('PATCH', `clubs/${id}/members/${uid}`, { r: 'miembro', j: { '.sv': 'timestamp' } });
+    await this.system(id, `${String(name || m.n || 'Jugador').slice(0, 16)} se ha unido al club`);
+  },
+  // ignorar una solicitud: se borra (si lo vuelve a pedir, saldrá otra vez)
+  async ignore(uid) {
+    const id = this.active, m = this.members[uid];
+    if (!id || !this.isOwner(id) || !m || m.r !== 'pend') return;
+    await this.req('DELETE', `clubs/${id}/members/${uid}`);
+    delete this.members[uid]; this.changed();
+  },
+  // ya no estoy en ese club (me han expulsado, o no han aceptado mi solicitud): se quita de mi lista y se avisa
+  gone(id, info) {
+    const e = this.entry(id); if (!e) return;
+    const I = info || (this.sum.get(id) || {}).info || {};
+    if (this.active === id) { for (const s of this.streams) try { s.close(); } catch (_) {} this.streams = []; this.status = 'off'; this.active = null; }
+    Save.p.clubs = this.mine().filter(c => c.id !== id); Save.save();
+    this.sum.delete(id);
+    if (typeof UI !== 'undefined') UI.clubGone(I.name || 'el club', e.pend ? 'ignorada' : 'fuera');
+    this.changed();
   },
   async send(text, sys, id = this.active, extra) {
     if (!id) return;
@@ -7510,7 +7830,13 @@ const Club = {
     await this.req('PUT', `clubs/${id}/msgs/${key}`, msg);
   },
   system(id, text) { return this.send(text, true, id); },
-  presenceAll() { if (!this.enabled()) return; for (const c of this.mine()) this.req('PATCH', `clubs/${c.id}/members/${this.uid()}`, this.me()).catch(() => {}); },
+  // «sigo conectado»: va SIN el nombre a propósito. Las reglas piden el nombre para crear un miembro, así que
+  // si a alguien lo han expulsado (o ya no está) esto no lo vuelve a meter en el club
+  presenceAll() {
+    if (!this.enabled()) return;
+    const me = this.me(); delete me.n;
+    for (const c of this.mine()) if (!c.pend) this.req('PATCH', `clubs/${c.id}/members/${this.uid()}`, me).catch(() => {});
+  },
   clean(t) {
     let s = t;
     for (const w of CLUB_BAD) s = s.replace(new RegExp('\\b' + w + '\\b', 'gi'), m => '*'.repeat(m.length));
@@ -7528,25 +7854,36 @@ const Club = {
         this.req('GET', `clubs/${id}/msgs`, undefined, '?orderBy=' + encodeURIComponent('"$key"') + '&limitToLast=30'),
       ]);
       const me = this.uid(), ms = Object.entries(last || {}).sort((a, b) => a[0] < b[0] ? -1 : 1);
-      const unread = ms.filter(([k, m]) => k > (e.read || '') && m.u !== me && !m.sys).length;
-      const memList = Object.values(mem || {});
-      this.sum.set(id, { info, total: memList.length, online: memList.filter(m => this.isOnline(m)).length, unread, last: ms.length ? ms[ms.length - 1][1] : null });
+      if (!info || !(mem || {})[me]) return this.gone(id, info);   // me han expulsado, han ignorado mi solicitud o el club ya no existe
+      const mine = mem[me];
+      if (e.pend && mine.r !== 'pend') { e.pend = false; e.read = ms.length ? ms[ms.length - 1][0] : ''; Save.save(); if (typeof UI !== 'undefined') UI.toast(`¡Te han aceptado en el club «${info.name}»!`); }
+      if (!e.pend && mine.n !== this.me().n) this.req('PATCH', `clubs/${id}/members/${me}`, { n: this.me().n }).catch(() => {});
+      const unread = e.pend ? 0 : ms.filter(([k, m]) => k > (e.read || '') && m.u !== me && !m.sys).length;
+      const all = Object.values(mem || {}), memList = all.filter(m => m.r !== 'pend');
+      const reqs = info.owner === me ? all.length - memList.length : 0;   // solicitudes (solo las ve el creador)
+      this.sum.set(id, { info, total: memList.length, online: memList.filter(m => this.isOnline(m)).length, unread, reqs, last: ms.length ? ms[ms.length - 1][1] : null });
       this.changed();
     } catch (_) { /* sin conexión: se vuelve a intentar en el siguiente repaso */ }
   },
-  totalUnread() { let n = 0; for (const c of this.mine()) n += c.id === this.active ? 0 : ((this.sum.get(c.id) || {}).unread || 0); return n; },
+  // mensajes sin leer y, si soy el creador, solicitudes para entrar (salen en el globo del botón CLUBS)
+  totalUnread() { let n = 0; for (const c of this.mine()) { const s = this.sum.get(c.id) || {}; n += (c.id === this.active ? 0 : (s.unread || 0)) + (s.reqs || 0); } return n; },
 
   // ------------------------------------------- abrir un club: chat en directo
   open(id) {
     if (this.active === id && this.streams.length) return;
     this.close();
-    if (!this.entry(id) || !this.enabled() || typeof EventSource === 'undefined') return;
+    if (!this.entry(id) || this.entry(id).pend || !this.enabled() || typeof EventSource === 'undefined') return;   // (los pendientes no ven el chat)
     this.active = id; this.status = 'connecting'; this.msgs.clear(); this.members = {}; this.info = (this.sum.get(id) || {}).info || null;
     const q = '?orderBy=' + encodeURIComponent('"$key"') + '&limitToLast=' + CLUB_HISTORY;
     this.loadInfo();
     this.listen(`clubs/${id}/members`, '', (path, data, kind) => {
       if (path === '/') { if (kind === 'patch') Object.assign(this.members, data || {}); else this.members = data || {}; }
       else { const ks = path.split('/').filter(Boolean); if (ks.length === 1) { if (kind === 'patch') this.members[ks[0]] = Object.assign(this.members[ks[0]] || {}, data); else if (data === null) delete this.members[ks[0]]; else this.members[ks[0]] = data; } else this.setAt(this.members, path, data); }
+      // si yo ya no estoy entre los miembros, me han expulsado mientras tenía el club abierto
+      if (this.active === id && !this.members[this.uid()] && !this._goneChk) {
+        this._goneChk = true;
+        this.req('GET', `clubs/${id}/info`).then(i => this.gone(id, i), () => this.gone(id, this.info)).finally(() => { this._goneChk = false; });
+      }
     });
     this.listen(`clubs/${id}/msgs`, q, (path, data) => {
       if (path === '/') { if (data) for (const k in data) this.msgs.set(k, data[k]); }
@@ -7585,10 +7922,11 @@ const Club = {
   },
   isOnline(m) { return m && typeof m.seen === 'number' && Date.now() - m.seen < CLUB_ONLINE_MS; },
   memberList() {
-    return Object.entries(this.members).map(([uid, m]) => Object.assign({ uid }, m))
+    return Object.entries(this.members).filter(([, m]) => m.r !== 'pend').map(([uid, m]) => Object.assign({ uid }, m))
       .sort((a, b) => (this.isOnline(b) - this.isOnline(a)) || (b.s || 0) - (a.s || 0));
   },
-  totalTrophies() { return Object.values(this.members).reduce((s, m) => s + (m.s || 0), 0); },
+  pendingList() { return Object.entries(this.members).filter(([, m]) => m.r === 'pend').map(([uid, m]) => Object.assign({ uid }, m)).sort((a, b) => (a.j || 0) - (b.j || 0)); },
+  totalTrophies() { return Object.values(this.members).filter(m => m.r !== 'pend').reduce((s, m) => s + (m.s || 0), 0); },
 };
 
 </script>
@@ -10839,6 +11177,27 @@ const OFFERS = [
 ];
 
 const ico = (svg, cls = 'ico') => `<span class="${cls}">${svg}</span>`;
+
+// Emblema de rango del Competitivo (diseño propio): escudo del color de la categoría, un símbolo que
+// se complica al subir (galón, dos galones, estrella, gema, alas, llama, laurel y corona) y 1-3 rombos del nivel
+let rankUid = 0;
+function rankBadge(idx, size = 64) {
+  const info = rankInfo(idx * RANKED.per), T0 = info.T, g = 'rkg' + (++rankUid), o = '#1b1030';
+  const sym = [
+    `<path d="M21 32l11-8 11 8" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M21 27l11-8 11 8M21 37l11-8 11 8" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M32 18l3.6 7.4 8.1 1.1-5.9 5.6 1.4 8-7.2-3.9-7.2 3.9 1.4-8-5.9-5.6 8.1-1.1z" fill="#fff" stroke="${o}" stroke-width="2.2" stroke-linejoin="round"/>`,
+    `<path d="M24 22h16l5 7-13 14-13-14z" fill="#fff" stroke="${o}" stroke-width="2.4" stroke-linejoin="round"/><path d="M19 29h26M28 22l4 21 4-21" fill="none" stroke="${T0.dark}" stroke-width="1.8"/>`,
+    `<path d="M32 21l4 9-4 9-4-9z" fill="#fff" stroke="${o}" stroke-width="2.2" stroke-linejoin="round"/><path d="M27 29c-6-1-10-5-11-10 5 0 9 3 11 7M37 29c6-1 10-5 11-10-5 0-9 3-11 7" fill="#fff" stroke="${o}" stroke-width="2" stroke-linejoin="round"/>`,
+    `<path d="M32 17c3 6 9 8 9 16a9 9 0 0 1-18 0c0-4 2-6 4-8 0 3 2 5 3 5-1-5 0-9 2-13z" fill="#fff" stroke="${o}" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 30c2 2 4 3 4 6a4 4 0 0 1-8 0c0-2 2-4 4-6z" fill="${T0.col}"/>`,
+    `<path d="M20 38c-4-6-3-14 2-19M44 38c4-6 3-14-2-19" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><path d="M19 30l-3-2M19 25l-3-3M45 30l3-2M45 25l3-3" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M32 20l3 6.2 6.8.9-5 4.7 1.2 6.7-6-3.3-6 3.3 1.2-6.7-5-4.7 6.8-.9z" fill="#fff" stroke="${o}" stroke-width="2" stroke-linejoin="round"/>`,
+    `<path d="M19 37l-2-15 8 6 7-10 7 10 8-6-2 15z" fill="#fff" stroke="${o}" stroke-width="2.6" stroke-linejoin="round"/><circle cx="32" cy="31" r="3" fill="${T0.col}" stroke="${o}" stroke-width="1.6"/>`,
+  ][Math.min(7, info.tier)];
+  const pips = info.div < 0 ? '' : [0, 1, 2].slice(0, info.div + 1).map((i, _, a) => { const x = 32 + (i - (a.length - 1) / 2) * 9; return `<path d="M${x} 47l3.2 3.2-3.2 3.2-3.2-3.2z" fill="#fff" stroke="${o}" stroke-width="1.6" stroke-linejoin="round"/>`; }).join('');
+  return `<svg class="rkb" viewBox="0 0 64 64" width="${size}" height="${size}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${T0.col}"/><stop offset="1" stop-color="${T0.dark}"/></linearGradient></defs>
+    <path d="M32 3l23 9v20c0 14-10 23-23 29C19 55 9 46 9 32V12z" fill="url(#${g})" stroke="${o}" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M32 8l18 7v6c-9-3-27-3-36 0v-6z" fill="#fff" opacity=".28"/>${sym}${pips}</svg>`;
+}
 const today = () => new Date().toDateString();
 
 // ---- Dibujos propios del lobby (SVG): árbol, regalos, bastones, trineo, colinas de nieve ----
@@ -10931,6 +11290,24 @@ const UI = {
     this.screenIn(id, prevId);
     if (['lobby', 'brawlers', 'brawler', 'events', 'pass', 'shop', 'road', 'club'].includes(id)) BSAudio.music('lobby');
   },
+  // Repinta la pantalla actual sin perder el scroll de ninguna caja. Si no, en el móvil la pantalla vuelve
+  // arriba al tocar un botón de abajo y pierdes de vista lo que estabas cambiando.
+  keepScroll(fn) {
+    const el = this.scr && U.$(this.scr); if (!el) return fn();
+    // (el canvas de partículas del menú entra y sale de la pantalla: no cuenta para encontrar cada caja)
+    const kids = n => [...n.children].filter(c => !c.classList.contains('fxcv'));
+    const path = n => { const p = []; for (; n && n !== el; n = n.parentElement) p.unshift(kids(n.parentElement).indexOf(n)); return p; };
+    const saved = [el, ...el.querySelectorAll('*')].filter(n => n.scrollTop || n.scrollLeft).map(n => [path(n), n.scrollTop, n.scrollLeft]);
+    fn();
+    for (const [p, t, l] of saved) { const n = p.reduce((a, i) => a && kids(a)[i], el); if (n) { n.scrollTop = t; n.scrollLeft = l; } }
+  },
+  // al cambiar el mapa de un modo solo se cambia su tarjeta (imagen y nombre), sin repintar la pantalla
+  mapCard(m) {
+    const card = document.querySelector(`#events .ev[data-mode="${m}"]`), list = mapsForMode(m), map = MAP[Save.p.maps[m]] || list[0];
+    if (!card) return this.keepScroll(() => this.r_events());
+    card.querySelector('.thumb img').src = Render.mapThumb(map);
+    card.querySelector('.mapsel span').textContent = map.name;
+  },
   hideScreens() { document.querySelectorAll('#ui .screen').forEach(s => s.classList.remove('active', 'leaving')); this.scr = null; },
   // Transición entre pantallas (zoom al entrar, deslizar al volver) y entrada escalonada de tarjetas.
   // Se marca con atributos data-* (no clases) porque las pantallas reescriben su className al repintarse.
@@ -10994,12 +11371,20 @@ const UI = {
       case 'skin': this.skin(this.detailId, d.skin); break;
       case 'try': if (Save.owns(this.detailId)) this.startTraining(this.detailId); break;
       case 'train': this.startTraining(p.selected); break;
-      case 'mode': p.mode = d.mode; Save.save(); BSAudio.sfx('pop'); this.netUpdate(); this.go('lobby'); break;
+      case 'rankInfo': this.rankModal(); break;
+      case 'mode': if (MODES[d.mode] && MODES[d.mode].ranked && this.inParty()) { this.toast('El Competitivo se juega solo: sal del equipo de amigos para jugarlo'); break; }
+        p.mode = d.mode; Save.save(); BSAudio.sfx('pop'); this.netUpdate(); this.go('lobby'); break;
       case 'friends': this.friends(); break;
       case 'club': Club.close(); this.clubView = 'list'; this.go('club'); break;
       case 'clubOpen': this.clubOpen(d.id); break;
       case 'clubList': Club.close(); this.clubView = 'list'; this.r_club(); break;
-      case 'clubBadge': this.clubBadgeSel = d.b; this.r_club(); break;
+      case 'clubAccept': Club.accept(d.uid, d.n).then(() => { BSAudio.sfx('unlock'); this.toast(`${d.n} ya es del club`); }).catch(e => this.toast(e.message || 'No se ha podido aceptar')); break;
+      case 'clubIgnore': Club.ignore(d.uid).then(() => this.toast(`Has ignorado a ${d.n}`)).catch(() => this.toast('No se ha podido ignorar')); break;
+      case 'clubCancel': this.confirm('¿Quieres cancelar tu solicitud para entrar en este club?', () => { this.closeModal(); Club.cancel(d.id).then(() => this.toast('Solicitud cancelada')); }); break;
+      case 'clubKick': this.confirm(`¿Seguro que quieres expulsar a «${this.esc(d.n)}» del club? Si quiere volver, tendrá que pedirlo y tú decides.`, () => {
+        this.closeModal(); Club.kick(d.uid, d.n).then(() => { BSAudio.sfx('back'); this.toast(`Has expulsado a ${d.n}`); }).catch(() => this.toast('No se ha podido expulsar. Mira la conexión.'));
+      }); break;
+      case 'clubBadge': this.clubBadgeSel = d.b; this.keepScroll(() => this.r_club()); break;
       case 'clubCreate': this.clubCreate(); break;
       case 'clubJoin': this.clubJoin(); break;
       case 'clubLeave': { const id = Club.active, nm = (Club.info && Club.info.name) || 'este club'; this.confirm(`¿Seguro que quieres salir de «${this.esc(nm)}»?`, () => { this.closeModal(); Club.leave(id).then(() => { this.clubView = 'list'; this.r_club(); this.toast('Has salido del club'); }); }); break; }
@@ -11014,8 +11399,8 @@ const UI = {
       case 'clubInvite': Net.invite(d.code); break;
       case 'leaveParty': Net.leave(); this.closeModal(); this.go('lobby'); break;
       case 'copyCode': this.copyCode(); break;
-      case 'map': { const list = mapsForMode(d.mode), cur = list.findIndex(m => m.id === (p.maps[d.mode] || list[0].id)); p.maps[d.mode] = list[(cur + (+d.dir) + list.length) % list.length].id; Save.save(); this.r_events(); break; }
-      case 'diff': p.settings.difficulty = +d.v; Save.save(); this.r_events(); break;
+      case 'map': { const list = mapsForMode(d.mode), cur = list.findIndex(m => m.id === (p.maps[d.mode] || list[0].id)); p.maps[d.mode] = list[(cur + (+d.dir) + list.length) % list.length].id; Save.save(); this.mapCard(d.mode); break; }
+      case 'diff': p.settings.difficulty = +d.v; Save.save(); this.keepScroll(() => this.r_events()); break;
       case 'play': this.play(); break;
       case 'settings': this.settings(); break;
       case 'full': this.toggleFull(); break;
@@ -11023,7 +11408,7 @@ const UI = {
       case 'quests': this.quests(); break;
       case 'claimQ': this.claimQuest(d.id); break;
       case 'claimP': this.claimPass(+d.i, d.k); break;
-      case 'premium': if (!p.passPremium) { if (p.gems >= PASS.premiumCost) { p.gems -= PASS.premiumCost; p.passPremium = true; Save.save(); BSAudio.sfx('unlock'); this.toast('¡Pase Premium activado!'); this.r_pass(); } else this.toast('Te faltan gemas'); } break;
+      case 'premium': if (!p.passPremium) { if (p.gems >= PASS.premiumCost) { p.gems -= PASS.premiumCost; p.passPremium = true; Save.save(); BSAudio.sfx('unlock'); this.toast('¡Pase Premium activado!'); this.keepScroll(() => this.r_pass()); } else this.toast('Te faltan gemas'); } break;
       case 'claimR': this.claimRoad(+d.i); break;
       case 'buy': this.buy(d.id); break;
       case 'close': this.closeModal(); if (this.paused) this.togglePause(true); break;
@@ -11234,7 +11619,7 @@ const UI = {
   // -------------------------------- lobby --------------------------------
   r_lobby() {
     const p = Save.p, b = BRAWLER[p.selected], R = RARITY[b.rarity], M = MODES[p.mode];
-    const map = MAP[p.maps[p.mode]] || mapsForMode(p.mode)[0];
+    const map = M.ranked ? null : MAP[p.maps[p.mode]] || mapsForMode(p.mode)[0];   // (Competitivo: modo y mapa al azar)
     const tot = Save.totalTrophies();
     const next = TROPHY_ROAD.find(r => r.t > tot) || TROPHY_ROAD[TROPHY_ROAD.length - 1];
     const prevT = (TROPHY_ROAD.filter(r => r.t <= tot).pop() || { t: 0 }).t;
@@ -11391,7 +11776,7 @@ const UI = {
     const bind = (sel, fn) => el.querySelectorAll(sel).forEach(x => x.onclick = e => { e.stopPropagation(); BSAudio.unlock(); BSAudio.sfx('click'); fn(x.dataset); });
     bind('[data-buystar]', () => this.buyExtra('star', b.id, 'coins'));
     bind('[data-buyhyper]', d => this.buyExtra('hyper', b.id, d.buyhyper));
-    bind('[data-buybrawler]', () => this.buyBrawler(b.id, () => this.r_brawler()));
+    bind('[data-buybrawler]', () => this.buyBrawler(b.id, () => this.keepScroll(() => this.r_brawler())));
   },
   // cómo se consigue un brawler bloqueado: camino de trofeos o comprarlo
   unlockHtml(b) {
@@ -11429,7 +11814,7 @@ const UI = {
     p[cur] -= cost; list.push(id); Save.save();
     BSAudio.jingle('starr');
     this.toast(star ? '⭐ ¡Habilidad estelar: ' + STAR_POWERS[id].name + '!' : '⚡ ¡Hipercarga: ' + HYPERS[id].name + '!');
-    this.r_brawler();
+    this.keepScroll(() => this.r_brawler());
   },
   buyBrawler(id, then) {
     const p = Save.p, b = BRAWLER[id], pr = brawlerPrice(b);
@@ -11450,7 +11835,7 @@ const UI = {
     if (p.coins < c.c || p.pp < c.p) { this.toast(p.coins < c.c ? 'Te faltan monedas' : 'Te faltan puntos de fuerza'); BSAudio.sfx('back'); return; }
     p.coins -= c.c; p.pp -= c.p; p.levels[id] = lv + 1; Save.save();
     BSAudio.sfx('levelup'); this.toast('¡' + BRAWLER[id].name + ' sube a nivel ' + (lv + 1) + '!');
-    this.r_brawler();
+    this.keepScroll(() => this.r_brawler());
   },
   skin(id, skin) {
     const p = Save.p, s = SKINS.find(k => k.id === skin);
@@ -11459,7 +11844,7 @@ const UI = {
       if (p.coins < s.price) { this.toast('Te faltan monedas'); return; }
       p.coins -= s.price; p.skinsOwned.push(id + ':' + skin); BSAudio.sfx('unlock'); this.toast('¡Skin ' + s.name + ' conseguida!');
     }
-    p.skin[id] = skin; Save.save(); this.netUpdate(); this.r_brawler();
+    p.skin[id] = skin; Save.save(); this.netUpdate(); this.keepScroll(() => this.r_brawler());
   },
 
   // ------------------------------- eventos -------------------------------
@@ -11474,8 +11859,15 @@ const UI = {
         <p>${M.desc}</p></div>`;
     }).join('');
     const d = p.settings.difficulty;
-    el.innerHTML = this.head('ELIGE UN EVENTO') + `<div class="scroll"><div class="events">${cards}</div>
-      <div class="diff t">BOTS: <div class="seg row">${['Fácil', 'Normal', 'Difícil'].map((n, i) => `<button class="btn dark t ${d === i ? 'on' : ''}" data-act="diff" data-v="${i}">${n}</button>`).join('')}</div></div></div>`;
+    const RK = rankInfo(p.ranked.pts);
+    const ranked = `<div class="rankcard ${p.mode === 'ranked' ? 'sel' : ''}" data-act="mode" data-mode="ranked">
+        <div class="rk-emb">${rankBadge(RK.idx, 92)}</div>
+        <div class="rk-mid"><div class="t rk-ttl">COMPETITIVO</div><div class="t rk-name" style="color:${RK.T.col}">${RK.name}</div>
+          ${RK.need ? `<div class="bar"><i style="width:${RK.into / RK.need * 100}%"></i></div><small class="t">${RK.into}/${RK.need} puntos para subir · Mejor: ${rankName(p.ranked.bestIdx || 0)}</small>` : `<small class="t">${RK.into} puntos de Campeón</small>`}
+          <p>Cada partida es un modo y un mapa al azar. Cuanto más alto estás, más difíciles son los bots. Ganar suma puntos, perder los quita y puedes bajar de rango.</p></div>
+        <div class="rk-btns"><button class="btn yellow t" data-act="mode" data-mode="ranked">${p.mode === 'ranked' ? '✔ ELEGIDO' : 'ELEGIR'}</button><button class="btn dark t" data-act="rankInfo">VER RANGOS</button></div></div>`;
+    el.innerHTML = this.head('ELIGE UN EVENTO') + `<div class="scroll">${ranked}<div class="events">${cards}</div>
+      <div class="diff t">BOTS (en Competitivo los pone tu rango): <div class="seg row">${['Fácil', 'Normal', 'Difícil'].map((n, i) => `<button class="btn dark t ${d === i ? 'on' : ''}" data-act="diff" data-v="${i}">${n}</button>`).join('')}</div></div></div>`;
     // los botones de mapa no deben seleccionar el modo
     el.querySelectorAll('[data-act="map"]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); BSAudio.unlock(); BSAudio.sfx('click'); this.act('map', b.dataset); }));
   },
@@ -11521,7 +11913,7 @@ const UI = {
     if (k === 'p' && !p.passPremium) { this.toast('Necesitas el Pase Premium'); return; }
     p.passClaimed.push(key); Save.save();
     const r = k === 'f' ? PASS.free(i) : PASS.premium(i);
-    this.grant(r, () => this.r_pass());
+    this.grant(r, () => this.keepScroll(() => this.r_pass()));
   },
   // da un premio (con animación si es un drop o un brawler)
   grant(r, then) {
@@ -11546,7 +11938,7 @@ const UI = {
   claimRoad(i) {
     const p = Save.p, r = TROPHY_ROAD[i];
     if (Save.totalTrophies() < r.t || p.road.includes(i)) return;
-    p.road.push(i); Save.save(); this.grant(this.roadReward(r), () => this.r_road());
+    p.road.push(i); Save.save(); this.grant(this.roadReward(r), () => this.keepScroll(() => this.r_road()));
   },
   // si el brawler de la casilla ya lo compraste en la tienda, la casilla da monedas
   roadReward(r, done) { return r.r.brawler && !done && Save.owns(r.r.brawler) ? { coins: 300 } : r.r; },
@@ -11571,7 +11963,7 @@ const UI = {
     }).join('');
     el.innerHTML = this.head('TIENDA') + `<div class="scroll">${bl ? `<h3 class="t" style="font-size:24px;margin:4px 20px">BRAWLERS NUEVOS</h3><div class="shop">${bl}</div>` : ''}<h3 class="t" style="font-size:24px;margin:4px 20px">OFERTAS</h3><div class="shop">${offers}</div>
       <p class="t" style="padding:10px 20px;font-size:14px;color:#e8e2ff">Las gemas se consiguen jugando: misiones, pase y camino de trofeos. ¡Aquí no se usa dinero de verdad!</p></div>`;
-    el.querySelectorAll('[data-shopb]').forEach(x => x.onclick = e => { e.stopPropagation(); BSAudio.unlock(); BSAudio.sfx('click'); this.buyBrawler(x.dataset.shopb, () => this.r_shop()); });
+    el.querySelectorAll('[data-shopb]').forEach(x => x.onclick = e => { e.stopPropagation(); BSAudio.unlock(); BSAudio.sfx('click'); this.buyBrawler(x.dataset.shopb, () => this.keepScroll(() => this.r_shop())); });
   },
   buy(id) {
     const p = Save.p, o = OFFERS.find(x => x.id === id);
@@ -11584,7 +11976,7 @@ const UI = {
     Save.save();
     const rest = Object.assign({}, o.give); delete rest.drop;
     if (Object.keys(rest).length) Save.give(rest);
-    if (o.give.drop) this.openDrop(o.give.drop, () => this.r_shop()); else { BSAudio.sfx('coin'); this.toast('¡Compra hecha!'); this.r_shop(); }
+    if (o.give.drop) this.openDrop(o.give.drop, () => this.keepScroll(() => this.r_shop())); else { BSAudio.sfx('coin'); this.toast('¡Compra hecha!'); this.keepScroll(() => this.r_shop()); }
   },
 
   // ------------------------ Drop Estelar (premio sorpresa) ------------------------
@@ -11707,6 +12099,9 @@ const UI = {
       const PM = MODES[Net.partyMode] || M, pmap = MAP[Net.partyMap] || map;
       return `<div class="btn event-btn" style="background:linear-gradient(${PM.color},${PM.dark});cursor:default"><span class="mi">${MODE_ICON[PM.icon]}</span><div><b class="t">${PM.name.toUpperCase()}</b><small class="t">${pmap.name} · elige el líder</small></div></div>`;
     }
+    if (M.ranked) { const R = rankInfo(Save.p.ranked.pts);
+      return `<button class="btn event-btn" style="background:linear-gradient(${M.color},${M.dark})" data-act="events">
+          <span class="mi rk-mi">${rankBadge(R.idx, 40)}</span><div><b class="t">COMPETITIVO</b><small class="t">${R.name}${R.need ? ` · ${R.into}/${R.need}` : ''}</small></div></button>`; }
     return `<button class="btn event-btn" style="background:linear-gradient(${M.color},${M.dark})" data-act="events">
           <span class="mi">${MODE_ICON[M.icon]}</span><div><b class="t">${M.name.toUpperCase()}</b><small class="t">${map.name}</small></div></button>`;
   },
@@ -11786,8 +12181,8 @@ const UI = {
           <div class="t" style="margin-top:6px">Escudo</div>
           <div class="badges">${CLUB_BADGES.map(b => `<button class="btn ${b === sel ? 'yellow' : 'dark'} cbtn" data-act="clubBadge" data-b="${b}">${b}</button>`).join('')}</div>
           <button class="btn green t" data-act="clubCreate" style="margin-top:10px;width:100%">CREAR CLUB</button></div>
-        <div class="box"><div class="bt t">🔑 UNIRSE A OTRO CLUB</div><p>Pide a tu amigo el código de su club (10 letras) y escríbelo aquí. Puedes estar en varios clubs a la vez.</p>
-          <div class="row" style="margin-top:8px"><input type="text" id="cCode" maxlength="10" placeholder="CÓDIGO" class="codein" style="width:250px"><button class="btn green t" data-act="clubJoin">UNIRSE</button></div></div>
+        <div class="box"><div class="bt t">🔑 UNIRSE A OTRO CLUB</div><p>Pide a tu amigo el código de su club (10 letras) y escríbelo aquí. El creador del club tendrá que aceptarte. Puedes estar en varios clubs a la vez.</p>
+          <div class="row" style="margin-top:8px"><input type="text" id="cCode" maxlength="10" placeholder="CÓDIGO" class="codein" style="width:250px"><button class="btn green t" data-act="clubJoin">PEDIR ENTRAR</button></div></div>
       </div></div>`;
     const cc = el.querySelector('#cCode'); cc.oninput = () => { cc.value = cc.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); };
     cc.onkeydown = e => { if (e.key === 'Enter') this.clubJoin(); };
@@ -11798,11 +12193,15 @@ const UI = {
     return mine.map(c => {
       const s = Club.sum.get(c.id) || {}, I = s.info || {}, last = s.last;
       const prev = last ? (last.sys ? last.x : last.n + ': ' + last.x) : 'Sin mensajes todavía';
+      if (c.pend) return `<div class="ccard pend" data-act="clubOpen" data-id="${c.id}">
+        <div class="cbadge">${I.badge || '🛡️'}</div>
+        <div class="ccmid"><div class="t cname">${this.esc(I.name || 'Cargando...')}</div><div class="cprev">⏳ Has pedido entrar. Espera a que el creador del club te acepte.</div></div>
+        <button class="btn dark t" data-act="clubCancel" data-id="${c.id}">CANCELAR</button></div>`;
       return `<div class="ccard" data-act="clubOpen" data-id="${c.id}">
         <div class="cbadge">${I.badge || '🛡️'}</div>
         <div class="ccmid"><div class="t cname">${this.esc(I.name || 'Cargando...')}</div><div class="cprev">${this.esc(prev)}</div>
-          <div class="t ccmeta"><span class="dot" style="background:${s.online ? '#5fe33a' : '#6b6b80'}"></span>${s.online || 0} conectados · 👥 ${s.total || '?'}</div></div>
-        ${s.unread ? `<div class="badge cunread">${s.unread}</div>` : ''}<div class="t ccgo">▶</div></div>`;
+          <div class="t ccmeta"><span class="dot" style="background:${s.online ? '#5fe33a' : '#6b6b80'}"></span>${s.online || 0} conectados · 👥 ${s.total || '?'}${s.reqs ? ` · <span class="creq">📩 ${s.reqs} ${s.reqs > 1 ? 'solicitudes' : 'solicitud'}</span>` : ''}</div></div>
+        ${s.unread || s.reqs ? `<div class="badge cunread">${(s.unread || 0) + (s.reqs || 0)}</div>` : ''}<div class="t ccgo">▶</div></div>`;
     }).join('');
   },
   r_clubChat(el) {
@@ -11857,12 +12256,23 @@ const UI = {
       : `<div class="msg ${m.u === me ? 'mine' : ''}"><img src="${Art.portrait(BRAWLER[m.b] ? m.b : 'rafa', m.k || 'clasica')}"><div class="mb"><div class="mh t">${this.esc(m.n)} <small>${hhmm(m.t)}</small></div><div class="mx">${this.esc(m.x)}</div>${m.inv && m.u !== me && Date.now() - (m.t || 0) < 30 * 60000 ? `<button class="btn green t minv" data-act="joinF" data-code="${this.esc(m.inv)}">UNIRSE A SU EQUIPO</button>` : ''}</div></div>`).join('')
       : `<div class="msys t">${Club.status === 'online' ? '¡Aún no hay mensajes! Saluda a tu club 👋' : 'Cargando mensajes...'}</div>`;
     if (scroll || near) box.scrollTop = box.scrollHeight;
-    const list = Club.memberList();
-    mem.innerHTML = list.map(m => {
+    const list = Club.memberList(), owner = Club.isOwner();
+    // botones de cada miembro: jugar con él si está conectado y, solo para el creador del club, EXPULSAR
+    const btns = (m, on, isMe) => {
+      let b = '';
+      if (!isMe && on && m.c && Net.role !== 'client') b += `<button class="btn yellow t mplay" data-act="clubPlay" data-code="${m.c}">UNIRSE</button><button class="btn t mplay" data-act="clubInvite" data-code="${m.c}">INVITAR</button>`;
+      if (owner && !isMe) b += `<button class="btn red t mplay" data-act="clubKick" data-uid="${this.esc(m.uid)}" data-n="${this.esc(m.n || 'Jugador')}">EXPULSAR</button>`;
+      return b ? `<div class="col mbtns" style="gap:4px">${b}</div>` : '';
+    };
+    // solicitudes para entrar: solo las ve el creador, con ACEPTAR o IGNORAR
+    const reqs = owner ? Club.pendingList() : [];
+    const reqHtml = reqs.length ? `<div class="creqs"><div class="bt t">📩 QUIEREN ENTRAR (${reqs.length})</div>${reqs.map(m => `<div class="mrow"><img src="${Art.portrait(BRAWLER[m.b] ? m.b : 'rafa', m.k || 'clasica')}"><div style="flex:1;min-width:0"><div class="t mn">${this.esc(m.n)}</div><div class="t ms">${ico(ICON.trophy)}${m.s || 0}</div></div>
+      <div class="col mbtns" style="gap:4px"><button class="btn green t mplay" data-act="clubAccept" data-uid="${this.esc(m.uid)}" data-n="${this.esc(m.n || 'Jugador')}">ACEPTAR</button><button class="btn dark t mplay" data-act="clubIgnore" data-uid="${this.esc(m.uid)}" data-n="${this.esc(m.n || 'Jugador')}">IGNORAR</button></div></div>`).join('')}</div>` : '';
+    mem.innerHTML = reqHtml + list.map(m => {
       const on = Club.isOnline(m), isMe = m.uid === me;
       return `<div class="mrow"><img src="${Art.portrait(BRAWLER[m.b] ? m.b : 'rafa', m.k || 'clasica')}"><div style="flex:1;min-width:0"><div class="t mn"><span class="dot" style="background:${on ? '#5fe33a' : '#6b6b80'}"></span>${this.esc(m.n)}${isMe ? ' (tú)' : ''}</div>
         <div class="t ms">${m.r === 'pres' ? '👑 Presidente' : 'Miembro'} · ${ico(ICON.trophy)}${m.s || 0}</div></div>
-        ${!isMe && on && m.c && Net.role !== 'client' ? `<div class="col" style="gap:4px"><button class="btn yellow t mplay" data-act="clubPlay" data-code="${m.c}">UNIRSE</button><button class="btn t mplay" data-act="clubInvite" data-code="${m.c}">INVITAR</button></div>` : ''}</div>`;
+        ${btns(m, on, isMe)}</div>`;
     }).join('');
     if (st) st.innerHTML = `👥 ${list.length}/${CLUB_MAX} · ${list.filter(m => Club.isOnline(m)).length} conectados · ${ico(ICON.trophy)}${U.fmtNum(Club.totalTrophies())}`;
     Club.markRead();
@@ -11875,14 +12285,26 @@ const UI = {
     const b = U.$('clubBadge'), n = Club.totalUnread();
     if (b) { b.textContent = n; b.style.display = n ? '' : 'none'; }
   },
-  clubOpen(id) { Club.open(id); this.clubView = 'chat'; this.r_club(); },
+  clubOpen(id) {
+    const e = Club.entry(id); if (e && e.pend) { this.toast('Todavía no te han aceptado. Espera a que el creador del club diga que sí.'); return; }
+    Club.open(id); this.clubView = 'chat'; this.r_club();
+  },
+  // me han expulsado de un club (o ya no existe): aviso y, si lo tenía abierto, vuelvo a la lista
+  clubGone(name, why) {
+    this.toast(why === 'ignorada' ? `Tu solicitud para entrar en «${name}» no se ha aceptado` : `Te han sacado del club «${name}»`);
+    if (this.scr === 'club' && this.clubView === 'chat' && !Club.active) { this.clubView = 'list'; this.r_club(); }
+  },
   clubCreate() {
     const n = U.$('cName').value, d = U.$('cDesc').value;
     Club.create(n, d, this.clubBadgeSel || CLUB_BADGES[0]).then(id => { BSAudio.sfx('unlock'); this.toast('¡Club creado! Pasa el código a tus amigos'); this.clubOpen(id); }).catch(e => this.toast(e.message || 'No se ha podido crear el club'));
   },
   clubJoin() {
     const c = U.$('cCode').value;
-    Club.join(c).then(id => { BSAudio.sfx('unlock'); this.toast('¡Bienvenido al club!'); this.clubOpen(id); }).catch(e => this.toast(e.message || 'No se ha podido entrar'));
+    Club.join(c).then(r => {
+      if (!r.pend) { BSAudio.sfx('unlock'); this.toast('¡Bienvenido al club!'); this.clubOpen(r.id); return; }
+      BSAudio.sfx('pop'); this.toast(`Solicitud enviada a «${r.name}». Cuando el creador te acepte, podrás entrar.`);
+      this.clubView = 'list'; this.keepScroll(() => this.r_club());
+    }).catch(e => this.toast(e.message || 'No se ha podido entrar'));
   },
   copyText(txt, msg) {
     if (!txt) return;
@@ -11891,6 +12313,23 @@ const UI = {
   },
 
   // ------------------------------- partida -------------------------------
+  // lista de todos los rangos del Competitivo, con los puntos que hacen falta y el premio de cada uno
+  rankModal() {
+    const R = Save.p.ranked, cur = rankInfo(R.pts).idx, rew = w => Object.entries(w).map(([k, v]) => ico(k === 'gems' ? ICON.gem : k === 'pp' ? ICON.pp : ICON.coin) + v).join(' ');
+    const rows = RANKED.tiers.map((T0, t) => `<div class="rkrow"><div class="t rkt" style="color:${T0.col}">${T0.name}</div><div class="rkdivs">${[0, 1, 2].map(dv => { const i = t * 3 + dv;
+      return `<div class="rkd ${i === cur ? 'cur' : ''} ${i <= (R.bestIdx || 0) ? 'got' : ''}">${rankBadge(i, 46)}<div class="t">${['I', 'II', 'III'][dv]}</div><small class="t">${i * RANKED.per} pts</small>${i ? `<small class="rkw">${rew(rankReward(i))}</small>` : ''}</div>`; }).join('')}</div></div>`).join('')
+      + `<div class="rkrow"><div class="t rkt" style="color:${RANKED.top.col}">${RANKED.top.name}</div><div class="rkdivs"><div class="rkd ${cur >= RANKED.levels ? 'cur' : ''}">${rankBadge(RANKED.levels, 46)}<small class="t">${RANKED.levels * RANKED.per} pts</small><small class="rkw">${rew(rankReward(RANKED.levels))}</small></div></div></div>`;
+    this.modal(`<h2 class="t">🏅 RANGOS DEL COMPETITIVO</h2>
+      <p class="help" style="text-align:center">Ganar: +${RANKED.win} puntos (+${RANKED.streak} si llevas 2 victorias seguidas). Perder quita de ${RANKED.loss[0]} a ${RANKED.loss[6]} puntos según la categoría, y puedes bajar de rango. El premio de cada rango se gana la primera vez que llegas.</p>
+      <div class="rklist">${rows}</div><button class="btn yellow t" data-act="close">CERRAR</button>`);
+  },
+  // ¿estoy en un equipo de amigos? (jugando solo, Net.role es 'solo')
+  inParty() { return Net.role === 'host' || Net.role === 'client'; },
+  // partida de Competitivo: un modo 3c3 y un mapa al azar, y los bots según tu rango
+  rankedCfg() {
+    const p = Save.p, mode = U.pick(RANKED.modes), map = U.pick(mapsForMode(mode)).id;
+    return { mode, map, brawler: p.selected, skin: Save.skinOf(p.selected), difficulty: rankDifficulty(p.ranked.pts), ranked: true };
+  },
   cfgFor(id, mode) {
     const p = Save.p, list = mapsForMode(mode), map = (MAP[p.maps[mode]] || list[0]).id;
     return { mode, map, brawler: id, skin: Save.skinOf(id), difficulty: p.settings.difficulty };
@@ -11900,12 +12339,13 @@ const UI = {
     if (!Save.owns(p.selected)) { this.go('pass'); return; }
     if (Net.role === 'client') { Net.setReady(true); this.toast('¡Listo! Esperando a que el líder empiece'); return; }
     if (Net.role === 'host' && Net.members.some(m => !m.ready)) { this.toast('Espera a que todo tu equipo esté LISTO'); return; }
+    if (MODES[p.mode].ranked && this.inParty()) { this.toast('El Competitivo se juega solo: sal del equipo de amigos para jugarlo'); return; }
     BSAudio.sfx('pop');
-    const cfg = this.cfgFor(p.selected, p.mode);
-    const total = Modes.sd(p.mode) ? 10 : 6;
+    const cfg = MODES[p.mode].ranked ? this.rankedCfg() : this.cfgFor(p.selected, p.mode);
+    const total = Modes.sd(cfg.mode) ? 10 : 6;
     const el = U.$('mm'); el.className = 'screen mm bg-lobby';
     el.innerHTML = `<div class="spinner"></div><h1 class="t">BUSCANDO PARTIDA...</h1><div class="cnt t" id="mmc">1/${total}</div>
-      <div class="t" style="font-size:20px">${MODES[p.mode].name} · ${MAP[cfg.map].name}</div><button class="btn red t" id="mmx">CANCELAR</button>`;
+      <div class="t" style="font-size:20px">${cfg.ranked ? 'COMPETITIVO · ' : ''}${MODES[cfg.mode].name} · ${MAP[cfg.map].name}</div><button class="btn red t" id="mmx">CANCELAR</button>`;
     this.go('mm'); BSAudio.music('vs');
     let n = 1, cancelled = false;
     U.$('mmx').onclick = () => { cancelled = true; BSAudio.sfx('back'); this.go('lobby'); };
@@ -11931,7 +12371,8 @@ const UI = {
     }
     const el = U.$('vs'); el.className = 'screen vs';
     el.style.background = `repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 26px,transparent 26px 52px),linear-gradient(${M.color},${M.dark})`;
-    el.innerHTML = `<div class="mode t">${M.name.toUpperCase()}</div><div class="map t">${MAP[cfg.map].name}</div>${body}`;
+    const RK = cfg.ranked && rankInfo(Save.p.ranked.pts);
+    el.innerHTML = `${RK ? `<div class="t vs-rk">${rankBadge(RK.idx, 30)}COMPETITIVO · ${RK.name}</div>` : ''}<div class="mode t">${M.name.toUpperCase()}</div><div class="map t">${MAP[cfg.map].name}</div>${body}`;
     this.go('vs');
     setTimeout(() => this.enterGame(), 2900);
   },
@@ -11967,8 +12408,9 @@ const UI = {
     const p = Save.p, P = r.player, id = P.id;
     const win = r.result === 'win';
     const before = p.trophies[id] || 0;
-    const delta = trophyDelta(r.mode, r.result === 'top' ? 'loss' : r.result, r.rank, before);
-    p.trophies[id] = Math.max(0, before + delta);
+    // (en los resultados sale lo que cambian de verdad: con 1 copa, perder 3 solo quita 1)
+    if (!r.ranked) p.trophies[id] = Math.max(0, before + trophyDelta(r.mode, r.result === 'top' ? 'loss' : r.result, r.rank, before));
+    const delta = p.trophies[id] - before, ranked = r.ranked ? this.rankedEnd(r) : null;
     p.best[id] = Math.max(p.best[id] || 0, p.trophies[id]);
     const star = r.star === P;
     let coins = r.mode === 'showdown' ? [30, 24, 20, 16, 12, 10, 8, 6, 4, 2][r.rank - 1] : r.mode === 'duoShowdown' ? [30, 22, 14, 8, 4][U.clamp(r.rank, 1, 5) - 1] : { win: 20, draw: 12, loss: 8 }[r.result];
@@ -11977,9 +12419,24 @@ const UI = {
     p.coins += coins; p.pp += pp; p.passXp += xp;
     p.stats.games++; if (win) p.stats.wins++; p.stats.kills += P.kills;
     Save.save();
-    this.showResults(r, { delta, coins, pp, xp, star });
+    this.showResults(r, { delta, coins, pp, xp, star, ranked });
+  },
+  // puntos de rango al acabar una partida de Competitivo (y premios la primera vez que llegas a un nivel)
+  rankedEnd(r) {
+    const p = Save.p, R = p.ranked, ptsBefore = R.pts, before = rankInfo(R.pts);
+    R.streak = r.result === 'win' ? R.streak + 1 : r.result === 'loss' ? 0 : R.streak;
+    R.pts = Math.max(0, R.pts + rankDelta(r.result, R.pts, R.streak)); R.games++;
+    const after = rankInfo(R.pts), prizes = [];
+    for (let i = (R.bestIdx || 0) + 1; i <= after.idx; i++) {
+      const w = rankReward(i); prizes.push({ idx: i, w });
+      p.coins += w.coins || 0; p.gems += w.gems || 0; p.pp += w.pp || 0;
+    }
+    R.bestIdx = Math.max(R.bestIdx || 0, after.idx); R.best = Math.max(R.best || 0, R.pts);
+    Save.save();
+    return { before, after, d: R.pts - ptsBefore, streak: R.streak, up: after.idx > before.idx, down: after.idx < before.idx, prizes };
   },
   showResults(r, rw) {
+    const rk = rw.ranked;
     this.inGame = 'results'; U.$('pauseBtn').style.display = 'none';
     const P = r.player, M = MODES[r.mode];
     const title = Modes.sd(r.mode) ? (r.rank === 1 ? '¡VICTORIA!' : 'PUESTO #' + r.rank) : r.result === 'win' ? '¡VICTORIA!' : r.result === 'loss' ? 'DERROTA' : 'EMPATE';
@@ -11996,10 +12453,14 @@ const UI = {
       teams = `<div class="vsrow">${r.ents.filter(e => e.team === 0).map(e => card(e)).join('')}</div><div class="vsrow">${r.ents.filter(e => e.team === 1).map(e => card(e)).join('')}</div>`;
     }
     const el = U.$('results'); el.className = 'screen results';
-    el.innerHTML = `<h1 class="t" style="color:${col}">${title}</h1><div class="rmode t">${M.name} · ${r.map}${r.mode === 'knockout' ? ' · ' + r.roundWins[0] + '-' + r.roundWins[1] : r.mode === 'brawlBall' && r.score ? ' · ' + r.score[0] + '-' + r.score[1] : r.mode === 'bounty' && r.stars ? ' · ⭐ ' + r.stars[0] + '-' + r.stars[1] : ''}</div>
+    el.innerHTML = `<h1 class="t" style="color:${col}">${title}</h1><div class="rmode t">${rk ? 'Competitivo · ' : ''}${M.name} · ${r.map}${r.mode === 'knockout' ? ' · ' + r.roundWins[0] + '-' + r.roundWins[1] : r.mode === 'brawlBall' && r.score ? ' · ' + r.score[0] + '-' + r.score[1] : r.mode === 'bounty' && r.stars ? ' · ⭐ ' + r.stars[0] + '-' + r.stars[1] : ''}</div>
       ${teams}
+      ${rk ? `<div class="rkres"><div class="rk-emb">${rankBadge(rk.after.idx, 70)}</div><div class="rk-mid">
+          ${rk.up ? `<div class="t rkup">¡SUBES A ${rk.after.name}!</div>` : rk.down ? `<div class="t rkdown">Bajas a ${rk.after.name}</div>` : `<div class="t rk-name" style="color:${rk.after.T.col}">${rk.after.name}</div>`}
+          ${rk.after.need ? `<div class="bar"><i style="width:${rk.after.into / rk.after.need * 100}%"></i></div><small class="t">${rk.after.into}/${rk.after.need} puntos${rk.streak >= 2 ? ` · 🔥 ${rk.streak} victorias seguidas` : ''}</small>` : '<small class="t">¡Estás en lo más alto!</small>'}
+          ${rk.prizes.map(z => `<div class="t rkprize">🎁 Premio por llegar a ${rankName(z.idx)}: ${Object.entries(z.w).map(([k, v]) => ico(k === 'gems' ? ICON.gem : k === 'pp' ? ICON.pp : ICON.coin) + v).join(' ')}</div>`).join('')}</div></div>` : ''}
       <div class="rewards">
-        <div class="rew t" style="animation-delay:.3s">${ico(ICON.trophy)}${rw.delta > 0 ? '+' : ''}${rw.delta}</div>
+        ${rk ? `<div class="rew t" style="animation-delay:.3s">${rankBadge(rk.after.idx, 30)}${rk.d > 0 ? '+' : ''}${rk.d}</div>` : `<div class="rew t" style="animation-delay:.3s">${ico(ICON.trophy)}${rw.delta > 0 ? '+' : ''}${rw.delta}</div>`}
         <div class="rew t" style="animation-delay:.45s">${ico(ICON.coin)}+${rw.coins}</div>
         <div class="rew t" style="animation-delay:.6s">${ico(ICON.pp)}+${rw.pp}</div>
         <div class="rew t" style="animation-delay:.75s">${ico(ICON.xp)}+${rw.xp} XP</div>
