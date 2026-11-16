@@ -7623,7 +7623,7 @@ const Net = {
         else { e.x = a[0]; e.y = a[1]; e.srvX = a[0]; e.srvY = a[1]; }
       } else this.pushHist(e, s.gt, a[0], a[1], !!a[11]);
       e.tx = a[0]; e.ty = a[1]; e.z = a[2]; if (!own) e.aim = a[3];
-      e.hp = a[4]; e.maxHp = a[5]; e.ammo = a[6]; e.reloadT = a[7]; e.super = a[8]; e.gadgets = a[9]; e.gadgetCd = a[10];
+      e.hp = a[4]; e.maxHp = a[5]; e.ammo = a[6]; if (own) e.srvAmmo = a[6]; e.reloadT = a[7]; e.super = a[8]; e.gadgets = a[9]; e.gadgetCd = a[10];
       e.dead = !!a[11]; e.respawnT = a[12]; e.gems = a[13]; e.cubes = a[14]; e.inBush = !!a[15]; e.revealT = a[16];
       e.fx.slow = a[17]; e.fx.shield = a[18]; e.fx.invis = a[19]; e.fx.speed = a[20];
       if (!own) { e.anim.moving = !!a[21]; e.anim.walk = a[22]; }
@@ -7688,6 +7688,19 @@ const Net = {
     Game.updateFx(dt);
     // controles propios: se mandan al líder y el movimiento se predice aquí para que no haya retraso
     const c = Input.control(P, G);
+    // Munición propia predicha: los datos del líder llegan con retraso, así que se descuentan aquí los disparos
+    // que acabamos de hacer y que el líder todavía no ha confirmado. Si no quedan balas (o hay que esperar entre
+    // disparos), no se hace el gesto ni se manda el disparo: antes salía el gesto pero el líder no disparaba.
+    const nowS = performance.now() / 1000, lagS = this.netDelay() * 2 + .12;
+    this.shotsOut = (this.shotsOut || []).filter(t => nowS - t < lagS);
+    if (P.srvAmmo !== undefined) P.ammo = Math.max(0, P.srvAmmo - this.shotsOut.length);
+    this.cdLocal = Math.max(0, (this.cdLocal || 0) - dt);
+    const kick = !!(G.ball && G.ball.carrier === P);   // con el balón, disparar es chutar (no gasta munición)
+    if (c.fire && !kick) {
+      if (P.dead || G.phase !== 'play' || P.ammo < 1 || this.cdLocal > 0) { c.fire = false; if (!P.dead && P.ammo < 1 && G.phase === 'play' && !(this.emptyT > nowS)) { BSAudio.sfx('reload_empty'); this.emptyT = nowS + .2; } }
+      else { this.shotsOut.push(nowS); this.cdLocal = P.def.attack.cooldown || .3; P.ammo -= 1; }
+    }
+    if (c.superFire && !kick && !(P.super >= 1)) c.superFire = false;
     const em = Input.consumeEmote(); if (em) { P.emote = { icon: em, t: 0 }; BSAudio.sfx('emote'); }
     const pend = this.pendIn || (this.pendIn = {});
     Object.assign(pend, { mx: c.mx, my: c.my, ax: c.aimX, ay: c.aimY, aim: !!c.aiming, f: pend.f || !!c.fire, s: pend.s || !!c.superFire, g: pend.g || !!c.gadget, h: pend.h || !!c.hyper, em: em || pend.em || null });
@@ -7751,7 +7764,7 @@ const CLUB_CONFIG = {
 // Versión de esta copia del juego. En la carpeta principal (la de desarrollo) es la
 // de la próxima publicación y solo la cambia tools/publicar.sh, así nunca es menor que
 // la del enlace y el aviso de versión nueva no sale mientras se desarrolla.
-const GAME_VERSION = '13';
+const GAME_VERSION = '14';
 // Enlace fijo del juego publicado: siempre tiene la última versión y su version.json
 const WEB_URL = 'https://aldicarus.github.io/los-mayoristas-brawl/';
 
