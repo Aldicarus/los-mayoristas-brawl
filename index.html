@@ -4730,6 +4730,7 @@ const Models = (() => {
     for (const b of BONES) { B[b].rotation.set(0, 0, 0); B[b].position.copy(R[b]); B[b].scale.set(1, 1, 1); }
     // velocidad (para los muelles de sombreros, colas, capas...)
     m.getWorldPosition(tmpV);
+    if (u.prev && !(Number.isFinite(u.prev.x) && Number.isFinite(u.vel.x) && Number.isFinite(u.acc.x))) { u.prev = null; u.vel.set(0, 0); u.acc.x = u.acc.z = 0; }   // (se recupera de un número no válido)
     if (u.prev && dt > 0) { const vx = (tmpV.x - u.prev.x) / dt, vz = (tmpV.z - u.prev.z) / dt; u.acc.x = (vx - u.vel.x) / dt; u.acc.z = (vz - u.vel.y) / dt; u.vel.set(vx, vz); u.prev.copy(tmpV); }
     else { u.prev = tmpV.clone(); u.acc.x = u.acc.z = 0; }
     const breath = Math.sin(t * 2.4);
@@ -4779,6 +4780,7 @@ const Models = (() => {
     const yaw = m.rotation.y, ca = Math.cos(yaw), sa = Math.sin(yaw);
     const lz = u.acc.x * sa + u.acc.z * ca, lx = u.acc.x * ca - u.acc.z * sa, spd = u.vel.length();
     for (const sp of u.springs) {
+      if (!(Number.isFinite(sp.ax) && Number.isFinite(sp.az) && Number.isFinite(sp.vx) && Number.isFinite(sp.vz))) { sp.ax = sp.az = sp.vx = sp.vz = 0; }   // (se recupera de un número no válido)
       const tx = U.clamp(-lz * sp.gain * .02, -.7, .7) + (sp.run || 0) * Math.min(1, spd / 2.5) + Math.sin(ph * 2) * .04 * mb;
       const tz = U.clamp(lx * sp.gain * .02, -.6, .6) * (sp.sign || 1);
       sp.vx += ((tx - sp.ax) * sp.k - sp.vx * sp.c) * dt; sp.ax += sp.vx * dt;
@@ -7532,7 +7534,7 @@ const Net = {
       const leader = m.members.find(x => x.leader); if (leader) this.remember(conn.peer.replace(NET_PREFIX, ''), leader.name);
       this.changed();
     } else if (m.t === 'start') this.clientStart(m);
-    else if (m.t === 'snap') this.applySnap(m);
+    else if (m.t === 'snap') { this.clock(m.gt); this.applySnap(m); }
     else if (m.t === 'end') this.clientEnd(m);
     else if (m.t === 'abort') { if (Game.G && Game.G.client) { UI.toast('El líder ha abandonado la partida'); this.inMatch = false; UI.quitMatch(); } }
     else if (m.t === 'disband') this.hostLost(true);
@@ -7547,11 +7549,48 @@ const Net = {
   setReady(v) { this.ready = v; this.sendMe(); this.changed(); },
 
   // monta una copia de la partida para dibujarla (la simulación la hace el líder)
+  // Reloj del líder: con cada mensaje se calcula la diferencia entre su tiempo de partida y el nuestro.
+  // Mirando solo los últimos 2 s: la del mensaje que menos ha tardado marca el reloj, y lo que tardan de más
+  // los lentos (el 90 %) es lo que se espera. Así los mensajes tardíos casi nunca dejan a nadie parado.
+  // (El reloj del líder se para en la cuenta atrás y entre rondas: por eso no sirve mirar toda la partida.)
+  clock(gt) {
+    if (typeof gt !== 'number') return;
+    const now = performance.now() / 1000, off = gt - now, O = this.offs || (this.offs = []);
+    if (O.length && Math.abs(off - O[O.length - 1]) > 2) O.length = 0;   // ronda nueva o pausa larga
+    O.push(off); if (O.length > 60) O.shift();
+    this.clkOff = Math.max(...O);
+    const lag = O.map(o => this.clkOff - o).sort((a, b) => a - b);
+    this.late = lag[Math.floor((lag.length - 1) * .9)] || 0;
+    this.lastSnapAt = now;
+  },
+  netDelay() { return U.clamp(NET_SNAP + (this.late || 0) + .02, .06, .35); },
+  // historial de posiciones de los demás brawlers (los últimos mensajes)
+  pushHist(e, t, x, y, dead) {
+    const h = e.hist || (e.hist = []), last = h[h.length - 1];
+    if (typeof t !== 'number') { e.x = x; e.y = y; return; }
+    // primera vez, ronda nueva, muerte o teletransporte: se pone en su sitio sin suavizar
+    if (!last || t < last.t - .5 || dead !== last.dead || Math.hypot(x - last.x, y - last.y) > 3 * T) { h.length = 0; e.x = x; e.y = y; }
+    else if (t <= last.t) return;   // repetido o desordenado
+    h.push({ t, x, y, dead }); if (h.length > 30) h.shift();
+  },
+  // posición de un brawler en el momento rt (entre los dos mensajes que lo rodean)
+  interp(e, rt) {
+    const h = e.hist; if (!h || !h.length) return;
+    if (rt <= h[0].t) { e.x = h[0].x; e.y = h[0].y; return; }
+    for (let i = h.length - 1; i > 0; i--) {
+      const b = h[i], a = h[i - 1];
+      if (rt >= a.t && rt <= b.t) { const k = (rt - a.t) / Math.max(1e-3, b.t - a.t); e.x = a.x + (b.x - a.x) * k; e.y = a.y + (b.y - a.y) * k; if (i > 2) h.splice(0, i - 2); return; }
+    }
+    // más allá del último mensaje: sigue un poquito con su velocidad (como mucho 0,15 s) y luego espera
+    const L = h[h.length - 1], ex = L.dead ? 0 : Math.min(.15, rt - L.t);
+    e.x = L.x + (e.mvx || 0) * ex; e.y = L.y + (e.mvy || 0) * ex;
+  },
   clientStart(m) {
     const cfg = m.cfg, world = new World(MAP[cfg.map]);
     const G = { cfg, mode: cfg.mode, M: MATCH[cfg.mode] || {}, world, t: 0, phase: 'intro', phaseT: 0, ents: [], projs: [], lobs: [], areas: [], boxes: [], pickups: [], fx: [], vfx: [],
       player: null, shake: 0, banner: null, result: null, teamGems: [0, 0], countdown: null, zone: null, gas: null, round: 1, roundWins: [0, 0], difficulty: cfg.difficulty, client: true, gemTimer: 9 };
-    G.ents = m.roster.map(r => { const e = Game.makeBrawler(r.id, r.team, { name: r.name, skin: r.skin, level: r.level, trophies: r.trophies, star: r.star, hyper: r.hyper }); e.anim.spawn = 1; return e; });
+    G.ents = m.roster.map(r => { const e = Game.makeBrawler(r.id, r.team, { name: r.name, skin: r.skin, level: r.level, trophies: r.trophies, star: r.star, hyper: r.hyper }); e.anim.spawn = 1; e.tx = e.x; e.ty = e.y; e.hist = []; return e; });
+    this.clkOff = undefined; this.late = 0; this.lastSnapAt = 0; this.offs = [];
     G.player = G.ents[m.you] || G.ents[0];
     G.player.isPlayer = true;
     this.setBoxes(G);
@@ -7579,8 +7618,10 @@ const Net = {
     s.ents.forEach((a, i) => {
       const e = G.ents[i]; if (!e) return;
       const own = e === P;
-      if (own && !this.firstSnap && !a[11] && !e.dead && Math.hypot(a[0] - e.x, a[1] - e.y) < 2.5 * T) { e.srvX = a[0]; e.srvY = a[1]; }
-      else { e.x = a[0]; e.y = a[1]; e.srvX = a[0]; e.srvY = a[1]; }
+      if (own) {
+        if (!this.firstSnap && !a[11] && !e.dead && Math.hypot(a[0] - e.x, a[1] - e.y) < 2.5 * T) { e.srvX = a[0]; e.srvY = a[1]; }
+        else { e.x = a[0]; e.y = a[1]; e.srvX = a[0]; e.srvY = a[1]; }
+      } else this.pushHist(e, s.gt, a[0], a[1], !!a[11]);
       e.tx = a[0]; e.ty = a[1]; e.z = a[2]; if (!own) e.aim = a[3];
       e.hp = a[4]; e.maxHp = a[5]; e.ammo = a[6]; e.reloadT = a[7]; e.super = a[8]; e.gadgets = a[9]; e.gadgetCd = a[10];
       e.dead = !!a[11]; e.respawnT = a[12]; e.gems = a[13]; e.cubes = a[14]; e.inBush = !!a[15]; e.revealT = a[16];
@@ -7635,12 +7676,14 @@ const Net = {
     for (const p of G.projs) { p.x += p.vx * dt; p.y += p.vy * dt; p.dist += Math.hypot(p.vx, p.vy) * dt; }
     for (const l of G.lobs) l.t = Math.min(l.dur, l.t + dt);
     for (const a of G.areas) a.t += dt;
+    const rt = performance.now() / 1000 + (this.clkOff || 0) - this.netDelay();
     for (const e of G.ents) {
       e.anim.recoil = Math.max(0, e.anim.recoil - dt * 6); e.anim.flash = Math.max(0, e.anim.flash - dt * 7); e.anim.spawn = Math.max(0, e.anim.spawn - dt * 2);
       if (e.emote) e.emote.t += dt;
       if (e === P) continue;
-      // los demás se suavizan hacia la última posición recibida
-      const k = Math.min(1, dt * 14); e.x += (e.tx - e.x) * k; e.y += (e.ty - e.y) * k;
+      // los demás se dibujan un poco «en el pasado», entre dos mensajes del líder: así se mueven suaves
+      // aunque los mensajes lleguen a trompicones (datos móviles, relevo)
+      this.interp(e, rt);
     }
     Game.updateFx(dt);
     // controles propios: se mandan al líder y el movimiento se predice aquí para que no haya retraso
@@ -7708,7 +7751,7 @@ const CLUB_CONFIG = {
 // Versión de esta copia del juego. En la carpeta principal (la de desarrollo) es la
 // de la próxima publicación y solo la cambia tools/publicar.sh, así nunca es menor que
 // la del enlace y el aviso de versión nueva no sale mientras se desarrolla.
-const GAME_VERSION = '12';
+const GAME_VERSION = '13';
 // Enlace fijo del juego publicado: siempre tiene la última versión y su version.json
 const WEB_URL = 'https://aldicarus.github.io/los-mayoristas-brawl/';
 
@@ -10511,7 +10554,9 @@ const Render = {
       const ally = e.team === P.team;
       let alpha = 1;
       if (e.fx.invis > 0) alpha = ally ? .45 : .3; else if (e.inBush && e.revealT <= 0) alpha = ally ? .55 : .85;
-      const target = Math.atan2(Math.cos(e.aim), Math.sin(e.aim));
+      if (!Number.isFinite(e.x) || !Number.isFinite(e.y)) continue;   // (todavía sin posición: no se dibuja)
+      const target = Number.isFinite(e.aim) ? Math.atan2(Math.cos(e.aim), Math.sin(e.aim)) : v.yaw;
+      if (!Number.isFinite(v.yaw)) v.yaw = Number.isFinite(target) ? target : 0;
       v.yaw += U.angDiff(v.yaw, target) * Math.min(1, dt * 16);
       v.root.position.set(x, (e.z || 0) / T, z); v.root.rotation.set(0, v.yaw, 0);
       const pop = e.anim.spawn > 0 ? U.easeOutBack(1 - e.anim.spawn) : 1;
