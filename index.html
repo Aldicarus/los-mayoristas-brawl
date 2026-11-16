@@ -2407,13 +2407,15 @@ const TEAM_COL = { me: '#5fe33a', ally: '#3aa4ff', enemy: '#ff3b3b' };
   function pump() {
     pumpT = null;
     if (!ctx) return;
-    var t0 = msNow(), fast = hurry(), budget = fast ? 14 : 6, id, r;
+    // jugando una partida, la música se genera muy poco a poco (3 ms por fotograma) para no quitarle tiempo al juego
+    var busy = typeof UI !== 'undefined' && UI.inGame === true;
+    var t0 = msNow(), fast = hurry() && !busy, budget = busy ? 3 : fast ? 14 : 6, id, r;
     while (queue.length && msNow() - t0 < budget) {
       id = queue[0];
       try { r = (jobs[id] || (jobs[id] = makeJob(id))).next(); } catch (e) { warn(e); failed[id] = 1; r = { done: true }; }
       if (r.done) { queue.shift(); delete jobs[id]; if (!failed[id]) finished(id, r.value); }
     }
-    if (queue.length) pumpT = setTimeout(pump, fast ? 4 : 24);
+    if (queue.length) pumpT = setTimeout(pump, busy ? 16 : fast ? 4 : 24);
     else shotCache = {};        // todo listo: libera los golpes de batería guardados
   }
   function finished(id, buf) {
@@ -7262,11 +7264,18 @@ const Net = {
     this.hookGame();
     this.open(this.code);
   },
+  // servidores para conectar (js/config.js): STUN siempre y, si está puesto, el relevo TURN para los datos móviles
+  iceServers() {
+    const C = typeof NET_ICE !== 'undefined' ? NET_ICE : {}, list = [{ urls: (C.stun && C.stun.length ? C.stun : ['stun:stun.l.google.com:19302']) }];
+    if (C.turn && C.turn.urls && C.turn.urls.length && C.turn.username) list.push({ urls: C.turn.urls, username: C.turn.username, credential: C.turn.credential });
+    return list;
+  },
+  hasRelay() { return typeof NET_ICE !== 'undefined' && !!(NET_ICE.turn && NET_ICE.turn.urls && NET_ICE.turn.urls.length && NET_ICE.turn.username); },
   newCode() { let s = ''; for (let i = 0; i < 6; i++) s += CODE_ABC[Math.floor(Math.random() * CODE_ABC.length)]; return s; },
   open(code) {
     this.status = 'connecting'; this.changed();
     let peer;
-    try { peer = new Peer(NET_PREFIX + code, { debug: 0 }); } catch (e) { this.status = 'error'; this.error = 'Tu navegador no permite jugar en red'; this.changed(); return; }
+    try { peer = new Peer(NET_PREFIX + code, { debug: 0, config: { iceServers: this.iceServers() } }); } catch (e) { this.status = 'error'; this.error = 'Tu navegador no permite jugar en red'; this.changed(); return; }
     this.peer = peer;
     peer.on('open', () => { this.status = 'online'; this.error = ''; this.changed(); this.pingFriends(); });
     peer.on('connection', conn => this.incoming(conn));
@@ -7312,7 +7321,7 @@ const Net = {
     conn.on('data', m => this.fromHost(conn, m));
     conn.on('close', () => { if (this.host === conn) this.hostLost(); });
     conn.on('error', () => {});
-    setTimeout(() => { if (this.joining === code && this.host !== conn) { this.joining = null; try { conn.close(); } catch (_) {} UI.toast('No se ha podido conectar con tu amigo'); this.changed(); } }, 12000);
+    setTimeout(() => { if (this.joining === code && this.host !== conn) { this.joining = null; try { conn.close(); } catch (_) {} UI.toast(this.hasRelay() ? 'No se ha podido conectar con tu amigo' : 'No se ha podido conectar con tu amigo. Si estáis con datos móviles (4G/5G), probad en la misma wifi.'); this.changed(); } }, 12000);
   },
   // alguien se quiere unir a mi equipo
   incoming(conn) {
@@ -7699,9 +7708,21 @@ const CLUB_CONFIG = {
 // Versión de esta copia del juego. En la carpeta principal (la de desarrollo) es la
 // de la próxima publicación y solo la cambia tools/publicar.sh, así nunca es menor que
 // la del enlace y el aviso de versión nueva no sale mientras se desarrolla.
-const GAME_VERSION = '11';
+const GAME_VERSION = '12';
 // Enlace fijo del juego publicado: siempre tiene la última versión y su version.json
 const WEB_URL = 'https://aldicarus.github.io/los-mayoristas-brawl/';
+
+// MODO AMIGOS: servidores para que dos aparatos se conecten.
+//  · STUN: para que se encuentren (funciona en la misma wifi y en muchas redes de casa).
+//  · TURN (relevo): hace falta cuando los dos están en datos móviles (4G/5G) o en redes que no dejan
+//    conectar directo. Los relevos gratis de PeerJS ya no funcionan, así que hay que poner uno propio:
+//    crea una cuenta gratis (por ejemplo en expressturn.com) y copia aquí su servidor, usuario y contraseña.
+//    Ojo: quedan a la vista en el juego publicado (para un juego de amigos, no pasa nada).
+const NET_ICE = {
+  stun: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'],
+  // relevo gratis de ExpressTURN (cuenta de Sergi). No pulses «Refresh Credentials» en su web: cambiaría la contraseña
+  turn: { urls: ['turn:free.expressturn.com:3478?transport=udp', 'turn:free.expressturn.com:3478?transport=tcp'], username: '000000002110258251', credential: '3NV6y9eSK25XnW3VI7tsCOa5DEg=' },
+};
 
 </script>
   <script>/* js/club.js */
@@ -10062,6 +10083,14 @@ const VFX = (() => {
       this.ready = true; this.warm = true;
     },
 
+    // Crea de antemano una malla de cada tipo de proyectil y una torreta (quedan escondidas en su piscina).
+    // Así la tarjeta gráfica prepara sus programas antes de la partida y no a mitad: en el iPhone eso da tirones.
+    prewarm() {
+      if (!this.ready || this.prewarmed) return; this.prewarmed = true;
+      for (const k of [...Object.keys(MESH_KINDS), 'keg']) putMesh(k, buildMesh(k));
+      const tu = buildTurret(); tu.visible = false; TPOOL.push(tu);
+    },
+
     // Limpia todo (nuevo mapa / nueva ronda)
     reset(G) {
       if (!this.ready) return;
@@ -10208,7 +10237,7 @@ const Render = {
     this.dpr = Math.min(2, window.devicePixelRatio || 1);
     this.w = innerWidth; this.h = innerHeight;
     this.cv.width = Math.round(this.w * this.dpr); this.cv.height = Math.round(this.h * this.dpr);
-    this.gl.setPixelRatio(Math.min(this.dpr, 1.6)); this.gl.setSize(this.w, this.h, false);
+    this.gl.setPixelRatio(Math.min(this.dpr, [1.6, 1.3, 1][this.q || 0])); this.gl.setSize(this.w, this.h, false);
     this.cam.aspect = this.w / this.h; this.cam.updateProjectionMatrix();
     this.uiK = U.clamp(Math.min(this.w, this.h * 1.6) / 1100, .7, 1.35);
     Input.layoutPads(this.w, this.h);
@@ -10251,7 +10280,22 @@ const Render = {
   },
 
   // ---------------------------- fotograma ----------------------------
+  // Calidad automática: si en un móvil la partida va lenta un buen rato (menos de unas 40 imágenes por segundo),
+  // se baja la resolución del 3D (y, al final, las sombras) para que vaya fluida. Solo baja, nunca sube sola.
+  autoQuality(dt) {
+    const now = performance.now(), d = this._lt ? now - this._lt : 16; this._lt = now;
+    if (!(dt > 0) || d > 250 || !Input.touchMode || (this.q || 0) >= 2) { this._slow = 0; return; }
+    this._ema = this._ema ? this._ema * .95 + d * .05 : d;
+    this._slow = this._ema > 25 ? (this._slow || 0) + d / 1000 : 0;
+    if (this._slow > 2.5) {
+      this.q = (this.q || 0) + 1; this._slow = 0; this._ema = 16;
+      this.resize();
+      if (this.q >= 2 && this.sun) { this.sun.shadow.mapSize.set(1024, 1024); if (this.sun.shadow.map) { this.sun.shadow.map.dispose(); this.sun.shadow.map = null; } }
+      console.info('Calidad del 3D reducida para que vaya más fluido (nivel ' + this.q + ')');
+    }
+  },
   frame(G, dt) {
+    this.autoQuality(dt);
     this.t += dt;
     const W = G.world;
     if (!this.L || this.L.W !== W) this.buildLevel(W, G);
@@ -10271,6 +10315,37 @@ const Render = {
   },
 
   // =========================== NIVEL ===========================
+  // Prepara la partida mientras sale la pantalla VS: monta el nivel y los brawlers (dibujando un fotograma
+  // con el lienzo escondido) y hace que la tarjeta gráfica prepare TODOS los programas de dibujo que harán
+  // falta (objetos que se recogen, cajas, miras, proyectiles, torretas…). Si no, se preparan a mitad de
+  // partida la primera vez que aparece cada efecto, y en el iPhone eso congela la imagen un momento.
+  prepare(G) {
+    try {
+      this.frame(G, 0);
+      const tmp = new THREE.Group(); tmp.visible = false;
+      for (const k of ['gem', 'cube']) tmp.add(Props.pickup(k));
+      tmp.add(Props.cubeBox());
+      const P = G.player;
+      if (P) for (const [spec, sup] of [[P.def.attack, false], [P.def.super, true]]) try { tmp.add(Props.aimShape(spec, sup)); } catch (_) {}
+      if (typeof VFX !== 'undefined' && VFX.prewarm) VFX.prewarm();
+      // el arbusto que se vuelve transparente al meterte dentro (se deja hecho en su piscina)
+      const L = this.L;
+      if (L && L.bushInst && L.bushInst.size && !L.transp.length) {
+        const it = L.bushInst.values().next().value[0];
+        const m = new THREE.Mesh(it.im.geometry, new THREE.MeshLambertMaterial({ vertexColors: true, transparent: true, opacity: .38, depthWrite: false, flatShading: true }));
+        m.visible = false; L.group.add(m); L.transp.push(m);
+      }
+      this.scene.add(tmp);
+      this.gl.compile(this.scene, this.cam);
+      // los brawlers se vuelven medio transparentes en los arbustos (o invisibles): eso es otro programa de dibujo,
+      // así que también se prepara ahora, poniéndolos transparentes un momento
+      const mats = []; this.scene.traverse(o => { if (o.userData && Array.isArray(o.userData.mats)) for (const m of o.userData.mats) if (!m.transparent) mats.push(m); });
+      for (const m of mats) { m.transparent = true; m.needsUpdate = true; }
+      this.gl.compile(this.scene, this.cam);
+      for (const m of mats) { m.transparent = false; m.needsUpdate = true; }
+      this.scene.remove(tmp);
+    } catch (e) { console.warn('No se ha podido preparar la partida', e); }
+  },
   buildLevel(W, G) {
     VFX.reset(G);
     if (this.L) { this.scene.remove(this.L.group); this.L.group.traverse(o => { if (o.isMesh && o.userData.own) { o.geometry.dispose(); } }); if (this.L.groundTex) this.L.groundTex.dispose(); }
@@ -12408,6 +12483,7 @@ const UI = {
     const RK = cfg.ranked && rankInfo(Save.p.ranked.pts);
     el.innerHTML = `${RK ? `<div class="t vs-rk">${rankBadge(RK.idx, 30)}COMPETITIVO · ${RK.name}</div>` : ''}<div class="mode t">${M.name.toUpperCase()}</div><div class="map t">${MAP[cfg.map].name}</div>${body}`;
     this.go('vs');
+    setTimeout(() => { if (Game.G === G) Render.prepare(G); }, 500);   // (mientras se ve el VS: así luego no hay tirones)
     setTimeout(() => this.enterGame(), 2900);
   },
   startTraining(id) {
